@@ -1,0 +1,33 @@
+### Ubiquitous Language
+
+#### 1. Purpose
+Defines the shared, internal vocabulary that both human team members and the AI use when discussing the product. By capturing terms, acronyms, and definitions in a single, version‑controlled file, the AI can resolve ambiguous references and keep the conversation grounded in a common understanding.
+
+#### 2. Structure
+
+# Ubiquitous Language
+
+## Terms
+| Term | Definition | Example usage |
+|------|------------|---------------|
+| **Flavor** |...|...|
+| **Bounded Context** |...|...|
+
+## Acronyms
+| Acronym | Full form | Relevance |
+|---------|-----------|-----------|
+| **RAG** | User Experience | Focus of UI design. |
+| **MCP** | Application Programming Interface | Interface used by services. |
+
+## Usage Guidelines
+1. **Consistency** – Use the exact term as listed whenever referring to that concept in prompts or documentation.
+2. **Context** – Prefix the term with its bounded context when necessary, e.g., *[Order] Payment*.
+3. **Abbreviations** – When using an acronym, first spell out and then provide the acronym in parentheses.
+4. **Versioning** – Tag each change to the file with a clear commit message: `docs: update upon product on‑boarding meeting`.
+
+#### 3. Example Prompt Using the Ubiquitous Language
+```text
+[Context:Order] [Intent:Explain] What is the role of the Payment Processor in the Order Bounded Context?
+```
+*The AI reads the Ubiquitous Language file, identifies `Payment Processor` as a term within the `Order` context, and returns a precise answer.*
+---
