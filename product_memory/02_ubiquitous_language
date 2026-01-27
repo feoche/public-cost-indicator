@@ -10,14 +10,15 @@ Defines the shared, internal vocabulary that both human team members and the AI 
 ## Terms
 | Term | Definition | Example usage |
 |------|------------|---------------|
+| **Gamme ** |...|...|
+| **Produit ** |...|...|
 | **Flavor** |...|...|
-| **Bounded Context** |...|...|
 
 ## Acronyms
 | Acronym | Full form | Relevance |
 |---------|-----------|-----------|
-| **RAG** | User Experience | Focus of UI design. |
-| **MCP** | Application Programming Interface | Interface used by services. |
+| **RAG** | Retrieval Augmented Generation | a technology that connects generative AI models to internal company databases |
+| **MCP** | Mode Context Protocol | The MCP protocol creates a standardized bidirectional connection for AI applications, allowing LLMs to easily connect to multiple data sources and tools |
 
 ## Usage Guidelines
 1. **Consistency** – Use the exact term as listed whenever referring to that concept in prompts or documentation.
