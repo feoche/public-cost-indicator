@@ -1,0 +1,992 @@
+[
+  {
+    "planCode": "s1-2.consumption",
+    "name": "s1-2",
+    "cpu": 1,
+    "ram": 2,
+    "storageGb": 10,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "vps-ssd-1.consumption",
+    "name": "vps-ssd-1",
+    "cpu": 1,
+    "ram": 2,
+    "storageGb": 10,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "d2-2.consumption",
+    "name": "d2-2",
+    "cpu": 1,
+    "ram": 2,
+    "storageGb": 25,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "discovery"
+  },
+  {
+    "planCode": "s1-4.consumption",
+    "name": "s1-4",
+    "cpu": 1,
+    "ram": 4,
+    "storageGb": 20,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "vps-ssd-2.consumption",
+    "name": "vps-ssd-2",
+    "cpu": 1,
+    "ram": 4,
+    "storageGb": 20,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "d2-4.consumption",
+    "name": "d2-4",
+    "cpu": 2,
+    "ram": 4,
+    "storageGb": 50,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "discovery"
+  },
+  {
+    "planCode": "c3-4.consumption",
+    "name": "c3-4",
+    "cpu": 2,
+    "ram": 4,
+    "storageGb": 50,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "b2-7.consumption",
+    "name": "b2-7",
+    "cpu": 2,
+    "ram": 7,
+    "storageGb": 50,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "c2-7.consumption",
+    "name": "c2-7",
+    "cpu": 2,
+    "ram": 7,
+    "storageGb": 50,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "win-b2-7.consumption",
+    "name": "win-b2-7",
+    "cpu": 2,
+    "ram": 7,
+    "storageGb": 50,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "win-c2-7.consumption",
+    "name": "win-c2-7",
+    "cpu": 2,
+    "ram": 7,
+    "storageGb": 50,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "eg-7.consumption",
+    "name": "eg-7",
+    "cpu": 2,
+    "ram": 7,
+    "storageGb": 200,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "hg-7.consumption",
+    "name": "hg-7",
+    "cpu": 2,
+    "ram": 7,
+    "storageGb": 200,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "win-eg-7.consumption",
+    "name": "win-eg-7",
+    "cpu": 2,
+    "ram": 7,
+    "storageGb": 200,
+    "os": "windows",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "win-hg-7.consumption",
+    "name": "win-hg-7",
+    "cpu": 2,
+    "ram": 7,
+    "storageGb": 200,
+    "os": "windows",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "s1-8.consumption",
+    "name": "s1-8",
+    "cpu": 2,
+    "ram": 8,
+    "storageGb": 40,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "vps-ssd-3.consumption",
+    "name": "vps-ssd-3",
+    "cpu": 2,
+    "ram": 8,
+    "storageGb": 40,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "b3-8.consumption",
+    "name": "b3-8",
+    "cpu": 2,
+    "ram": 8,
+    "storageGb": 50,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "r2-15.consumption",
+    "name": "r2-15",
+    "cpu": 2,
+    "ram": 15,
+    "storageGb": 50,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "win-r2-15.consumption",
+    "name": "win-r2-15",
+    "cpu": 2,
+    "ram": 15,
+    "storageGb": 50,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "r3-16.consumption",
+    "name": "r3-16",
+    "cpu": 2,
+    "ram": 16,
+    "storageGb": 50,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "r2-30.consumption",
+    "name": "r2-30",
+    "cpu": 2,
+    "ram": 30,
+    "storageGb": 50,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "win-r2-30.consumption",
+    "name": "win-r2-30",
+    "cpu": 2,
+    "ram": 30,
+    "storageGb": 50,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "sp-30.consumption",
+    "name": "sp-30",
+    "cpu": 2,
+    "ram": 30,
+    "storageGb": 200,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "win-sp-30.consumption",
+    "name": "win-sp-30",
+    "cpu": 2,
+    "ram": 30,
+    "storageGb": 200,
+    "os": "windows",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "d2-8.consumption",
+    "name": "d2-8",
+    "cpu": 4,
+    "ram": 8,
+    "storageGb": 50,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "discovery"
+  },
+  {
+    "planCode": "c3-8.consumption",
+    "name": "c3-8",
+    "cpu": 4,
+    "ram": 8,
+    "storageGb": 100,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "b2-15.consumption",
+    "name": "b2-15",
+    "cpu": 4,
+    "ram": 15,
+    "storageGb": 100,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "c2-15.consumption",
+    "name": "c2-15",
+    "cpu": 4,
+    "ram": 15,
+    "storageGb": 100,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "win-b2-15.consumption",
+    "name": "win-b2-15",
+    "cpu": 4,
+    "ram": 15,
+    "storageGb": 100,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "win-c2-15.consumption",
+    "name": "win-c2-15",
+    "cpu": 4,
+    "ram": 15,
+    "storageGb": 100,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "eg-15.consumption",
+    "name": "eg-15",
+    "cpu": 4,
+    "ram": 15,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "hg-15.consumption",
+    "name": "hg-15",
+    "cpu": 4,
+    "ram": 15,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "win-eg-15.consumption",
+    "name": "win-eg-15",
+    "cpu": 4,
+    "ram": 15,
+    "storageGb": 400,
+    "os": "windows",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "win-hg-15.consumption",
+    "name": "win-hg-15",
+    "cpu": 4,
+    "ram": 15,
+    "storageGb": 400,
+    "os": "windows",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "b3-16.consumption",
+    "name": "b3-16",
+    "cpu": 4,
+    "ram": 16,
+    "storageGb": 100,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "r3-32.consumption",
+    "name": "r3-32",
+    "cpu": 4,
+    "ram": 32,
+    "storageGb": 100,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "bm-s1.consumption",
+    "name": "bm-s1",
+    "cpu": 4,
+    "ram": 32,
+    "storageGb": 960,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "metal"
+  },
+  {
+    "planCode": "r2-60.consumption",
+    "name": "r2-60",
+    "cpu": 4,
+    "ram": 60,
+    "storageGb": 100,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "win-r2-60.consumption",
+    "name": "win-r2-60",
+    "cpu": 4,
+    "ram": 60,
+    "storageGb": 100,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "sp-60.consumption",
+    "name": "sp-60",
+    "cpu": 4,
+    "ram": 60,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "win-sp-60.consumption",
+    "name": "win-sp-60",
+    "cpu": 4,
+    "ram": 60,
+    "storageGb": 400,
+    "os": "windows",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "c3-16.consumption",
+    "name": "c3-16",
+    "cpu": 8,
+    "ram": 16,
+    "storageGb": 200,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "b2-30.consumption",
+    "name": "b2-30",
+    "cpu": 8,
+    "ram": 30,
+    "storageGb": 200,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "c2-30.consumption",
+    "name": "c2-30",
+    "cpu": 8,
+    "ram": 30,
+    "storageGb": 200,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "win-b2-30.consumption",
+    "name": "win-b2-30",
+    "cpu": 8,
+    "ram": 30,
+    "storageGb": 200,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "win-c2-30.consumption",
+    "name": "win-c2-30",
+    "cpu": 8,
+    "ram": 30,
+    "storageGb": 200,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "eg-30.consumption",
+    "name": "eg-30",
+    "cpu": 8,
+    "ram": 30,
+    "storageGb": 800,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "hg-30.consumption",
+    "name": "hg-30",
+    "cpu": 8,
+    "ram": 30,
+    "storageGb": 800,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "win-eg-30.consumption",
+    "name": "win-eg-30",
+    "cpu": 8,
+    "ram": 30,
+    "storageGb": 800,
+    "os": "windows",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "win-hg-30.consumption",
+    "name": "win-hg-30",
+    "cpu": 8,
+    "ram": 30,
+    "storageGb": 800,
+    "os": "windows",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "b3-32.consumption",
+    "name": "b3-32",
+    "cpu": 8,
+    "ram": 32,
+    "storageGb": 200,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "i1-45.consumption",
+    "name": "i1-45",
+    "cpu": 8,
+    "ram": 45,
+    "storageGb": 50,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "iops"
+  },
+  {
+    "planCode": "win-i1-45.consumption",
+    "name": "win-i1-45",
+    "cpu": 8,
+    "ram": 45,
+    "storageGb": 50,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "iops"
+  },
+  {
+    "planCode": "r3-64.consumption",
+    "name": "r3-64",
+    "cpu": 8,
+    "ram": 64,
+    "storageGb": 200,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "bm-m1.consumption",
+    "name": "bm-m1",
+    "cpu": 8,
+    "ram": 64,
+    "storageGb": 960,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "metal"
+  },
+  {
+    "planCode": "r2-120.consumption",
+    "name": "r2-120",
+    "cpu": 8,
+    "ram": 120,
+    "storageGb": 200,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "win-r2-120.consumption",
+    "name": "win-r2-120",
+    "cpu": 8,
+    "ram": 120,
+    "storageGb": 200,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "sp-120.consumption",
+    "name": "sp-120",
+    "cpu": 8,
+    "ram": 120,
+    "storageGb": 800,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "win-sp-120.consumption",
+    "name": "win-sp-120",
+    "cpu": 8,
+    "ram": 120,
+    "storageGb": 800,
+    "os": "windows",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "c3-32.consumption",
+    "name": "c3-32",
+    "cpu": 16,
+    "ram": 32,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "b2-60.consumption",
+    "name": "b2-60",
+    "cpu": 16,
+    "ram": 60,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "c2-60.consumption",
+    "name": "c2-60",
+    "cpu": 16,
+    "ram": 60,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "win-b2-60.consumption",
+    "name": "win-b2-60",
+    "cpu": 16,
+    "ram": 60,
+    "storageGb": 400,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "win-c2-60.consumption",
+    "name": "win-c2-60",
+    "cpu": 16,
+    "ram": 60,
+    "storageGb": 400,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "win-eg-60.consumption",
+    "name": "win-eg-60",
+    "cpu": 16,
+    "ram": 60,
+    "storageGb": 800,
+    "os": "windows",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "eg-60.consumption",
+    "name": "eg-60",
+    "cpu": 16,
+    "ram": 60,
+    "storageGb": 1600,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "hg-60.consumption",
+    "name": "hg-60",
+    "cpu": 16,
+    "ram": 60,
+    "storageGb": 1600,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "win-hg-60.consumption",
+    "name": "win-hg-60",
+    "cpu": 16,
+    "ram": 60,
+    "storageGb": 1600,
+    "os": "windows",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "b3-64.consumption",
+    "name": "b3-64",
+    "cpu": 16,
+    "ram": 64,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "i1-90.consumption",
+    "name": "i1-90",
+    "cpu": 16,
+    "ram": 90,
+    "storageGb": 50,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "iops"
+  },
+  {
+    "planCode": "win-i1-90.consumption",
+    "name": "win-i1-90",
+    "cpu": 16,
+    "ram": 90,
+    "storageGb": 50,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "iops"
+  },
+  {
+    "planCode": "r3-128.consumption",
+    "name": "r3-128",
+    "cpu": 16,
+    "ram": 128,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "bm-l1.consumption",
+    "name": "bm-l1",
+    "cpu": 16,
+    "ram": 128,
+    "storageGb": 960,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "metal"
+  },
+  {
+    "planCode": "r2-240.consumption",
+    "name": "r2-240",
+    "cpu": 16,
+    "ram": 240,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "win-r2-240.consumption",
+    "name": "win-r2-240",
+    "cpu": 16,
+    "ram": 240,
+    "storageGb": 400,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "sp-240.consumption",
+    "name": "sp-240",
+    "cpu": 16,
+    "ram": 240,
+    "storageGb": 1600,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "win-sp-240.consumption",
+    "name": "win-sp-240",
+    "cpu": 16,
+    "ram": 240,
+    "storageGb": 1600,
+    "os": "windows",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "c3-64.consumption",
+    "name": "c3-64",
+    "cpu": 32,
+    "ram": 64,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "b2-120.consumption",
+    "name": "b2-120",
+    "cpu": 32,
+    "ram": 120,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "c2-120.consumption",
+    "name": "c2-120",
+    "cpu": 32,
+    "ram": 120,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "win-b2-120.consumption",
+    "name": "win-b2-120",
+    "cpu": 32,
+    "ram": 120,
+    "storageGb": 400,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "win-c2-120.consumption",
+    "name": "win-c2-120",
+    "cpu": 32,
+    "ram": 120,
+    "storageGb": 400,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "win-eg-120.consumption",
+    "name": "win-eg-120",
+    "cpu": 32,
+    "ram": 120,
+    "storageGb": 800,
+    "os": "windows",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "eg-120.consumption",
+    "name": "eg-120",
+    "cpu": 32,
+    "ram": 120,
+    "storageGb": 1600,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "hg-120.consumption",
+    "name": "hg-120",
+    "cpu": 32,
+    "ram": 120,
+    "storageGb": 1600,
+    "os": "linux",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "win-hg-120.consumption",
+    "name": "win-hg-120",
+    "cpu": 32,
+    "ram": 120,
+    "storageGb": 1600,
+    "os": "windows",
+    "brick": "",
+    "brickSubtype": ""
+  },
+  {
+    "planCode": "b3-128.consumption",
+    "name": "b3-128",
+    "cpu": 32,
+    "ram": 128,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "i1-180.consumption",
+    "name": "i1-180",
+    "cpu": 32,
+    "ram": 180,
+    "storageGb": 50,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "iops"
+  },
+  {
+    "planCode": "win-i1-180.consumption",
+    "name": "win-i1-180",
+    "cpu": 32,
+    "ram": 180,
+    "storageGb": 50,
+    "os": "windows",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "iops"
+  },
+  {
+    "planCode": "r3-256.consumption",
+    "name": "r3-256",
+    "cpu": 32,
+    "ram": 256,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "c3-128.consumption",
+    "name": "c3-128",
+    "cpu": 64,
+    "ram": 128,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "b3-256.consumption",
+    "name": "b3-256",
+    "cpu": 64,
+    "ram": 256,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "r3-512.consumption",
+    "name": "r3-512",
+    "cpu": 64,
+    "ram": 512,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "c3-256.consumption",
+    "name": "c3-256",
+    "cpu": 128,
+    "ram": 256,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "b3-512.consumption",
+    "name": "b3-512",
+    "cpu": 128,
+    "ram": 512,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  },
+  {
+    "planCode": "r3-1024.consumption",
+    "name": "r3-1024",
+    "cpu": 128,
+    "ram": 1024,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "ram"
+  },
+  {
+    "planCode": "c3-320.consumption",
+    "name": "c3-320",
+    "cpu": 160,
+    "ram": 320,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "cpu"
+  },
+  {
+    "planCode": "b3-640.consumption",
+    "name": "b3-640",
+    "cpu": 160,
+    "ram": 640,
+    "storageGb": 400,
+    "os": "linux",
+    "brick": "guaranteed-resources",
+    "brickSubtype": "general-purpose"
+  }
+]
