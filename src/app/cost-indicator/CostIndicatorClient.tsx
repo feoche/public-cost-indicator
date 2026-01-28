@@ -4,14 +4,13 @@ import React, { useEffect, useMemo, useState } from "react";
 import styles from "./page.module.css";
 
 import type { Plan } from "./lib/cloudData";
-import { CostSummary } from "./components/CostSummary";
 import {
   backupPricingPerGbHour,
   blockStoragePricingPerGbHour,
   floatingIpPricePerHour,
   gatewayPricingPerHour,
+  getPlanHourlyPrice,
   gpuPricingPerHour,
-  instanceTypePricingPerHour,
   loadBalancerPricingPerHour,
   objectStoragePricingPerGbHour,
 } from "./lib/pricing";
@@ -21,6 +20,7 @@ interface CostIndicatorClientProps {
   families: string[];
   currency?: string;
   taxRate?: number;
+  cataloguePrices?: Record<string, number>;
 }
 
 export default function CostIndicatorClient({
@@ -28,6 +28,7 @@ export default function CostIndicatorClient({
   families,
   currency = "EUR",
   taxRate,
+  cataloguePrices = {},
 }: CostIndicatorClientProps) {
   const gpuProfileDetails: Record<
     string,
@@ -87,8 +88,6 @@ export default function CostIndicatorClient({
   const [publicIps, setPublicIps] = useState("0");
   const [instanceBackupQty, setInstanceBackupQty] = useState("0");
   const [instanceBackupRetention, setInstanceBackupRetention] = useState("");
-  const [volumeBackupQty, setVolumeBackupQty] = useState("0");
-  const [volumeBackupRetention, setVolumeBackupRetention] = useState("");
   const [remoteBackupEnabled, setRemoteBackupEnabled] = useState(false);
   const [remoteBackupRegion, setRemoteBackupRegion] = useState("");
   const [objectStorage, setObjectStorage] = useState("0");
@@ -97,8 +96,8 @@ export default function CostIndicatorClient({
   const [privateInterconnect, setPrivateInterconnect] = useState("No");
   const [location, setLocation] = useState("");
   const [region, setRegion] = useState("");
-  const [dataSovereignty, setDataSovereignty] = useState("EU");
-  const [resilience, setResilience] = useState("1AZ");
+  const [resilience, setResilience] = useState("");
+  const [hasSelectedResilience, setHasSelectedResilience] = useState(false);
   const [savingPlanDuration, setSavingPlanDuration] = useState("payg");
   const [savingPlanDiscount, setSavingPlanDiscount] = useState("0");
   const [savingPlanAuto, setSavingPlanAuto] = useState(true);
@@ -209,44 +208,44 @@ export default function CostIndicatorClient({
   const regionOptions = useMemo(() => {
     const optionsByLocation: Record<string, { value: string; label: string }[]> =
       {
-        germany: [{ value: "de-fra", label: "Allemagne (Frankfurt)" }],
-        australia: [{ value: "au-syd", label: "Australie (Sydney)" }],
-        austria: [{ value: "at-vie", label: "Autriche (Vienna)" }],
-        belgium: [{ value: "be-bru", label: "Belgique (Bruxelles)" }],
-        bulgaria: [{ value: "bg-sof", label: "Bulgarie (Sofia)" }],
-        canada: [
-          { value: "ca-bhs", label: "Canada (Beauharnois)" },
-          { value: "ca-tor", label: "Canada (Toronto)" },
-        ],
-        czechia: [{ value: "cz-prg", label: "République tchèque (Prague)" }],
-        denmark: [{ value: "dk-cph", label: "Danemark (Copenhagen)" }],
-        spain: [{ value: "es-mad", label: "Espagne (Madrid)" }],
-        finland: [{ value: "fi-hel", label: "Finlande (Helsinki)" }],
-        france: [
+        europe: [
           { value: "fr-sbg", label: "France (Strasbourg)" },
           { value: "fr-grv", label: "France (Gravelines)" },
           { value: "fr-par", label: "France (Paris)" },
           { value: "fr-rbx", label: "France (Roubaix)" },
           { value: "fr-mrs", label: "France (Marseille)" },
-        ],
-        ireland: [{ value: "ie-dub", label: "Irlande (Dublin)" }],
-        india: [{ value: "in-bom", label: "Inde (Mumbai)" }],
-        uk: [
+          { value: "de-fra", label: "Allemagne (Frankfurt)" },
           { value: "uk-lon", label: "Royaume‑Uni (Londres)" },
           { value: "uk-man", label: "Royaume‑Uni (Manchester)" },
+          { value: "it-mil", label: "Italie (Milan)" },
+          { value: "es-mad", label: "Espagne (Madrid)" },
+          { value: "pt-lis", label: "Portugal (Lisbon)" },
+          { value: "nl-ams", label: "Pays‑Bas (Amsterdam)" },
+          { value: "be-bru", label: "Belgique (Bruxelles)" },
+          { value: "ch-zrh", label: "Suisse (Zurich)" },
+          { value: "se-sto", label: "Suède (Stockholm)" },
+          { value: "no-osl", label: "Norvège (Oslo)" },
+          { value: "fi-hel", label: "Finlande (Helsinki)" },
+          { value: "dk-cph", label: "Danemark (Copenhagen)" },
+          { value: "pl-waw", label: "Pologne (Varsovie)" },
+          { value: "cz-prg", label: "République tchèque (Prague)" },
+          { value: "ro-buc", label: "Roumanie (Bucharest)" },
+          { value: "bg-sof", label: "Bulgarie (Sofia)" },
+          { value: "at-vie", label: "Autriche (Vienna)" },
+          { value: "ie-dub", label: "Irlande (Dublin)" },
+          { value: "lu-lux", label: "Luxembourg (Luxembourg)" },
+          { value: "ma-rab", label: "Maroc (Rabat)" },
         ],
-        italy: [{ value: "it-mil", label: "Italie (Milan)" }],
-        poland: [{ value: "pl-waw", label: "Pologne (Varsovie)" }],
-        luxembourg: [{ value: "lu-lux", label: "Luxembourg (Luxembourg)" }],
-        morocco: [{ value: "ma-rab", label: "Maroc (Rabat)" }],
-        netherlands: [{ value: "nl-ams", label: "Pays‑Bas (Amsterdam)" }],
-        norway: [{ value: "no-osl", label: "Norvège (Oslo)" }],
-        portugal: [{ value: "pt-lis", label: "Portugal (Lisbon)" }],
-        romania: [{ value: "ro-buc", label: "Roumanie (Bucharest)" }],
-        sweden: [{ value: "se-sto", label: "Suède (Stockholm)" }],
-        switzerland: [{ value: "ch-zrh", label: "Suisse (Zurich)" }],
-        singapore: [{ value: "sg-sin", label: "Singapour (Singapour)" }],
-        us: [{ value: "us-1", label: "États‑Unis (US)" }],
+        "north-america": [
+          { value: "ca-bhs", label: "Canada (Beauharnois)" },
+          { value: "ca-tor", label: "Canada (Toronto)" },
+          { value: "us-1", label: "États‑Unis (US)" },
+        ],
+        "asia-pacific": [
+          { value: "au-syd", label: "Australie (Sydney)" },
+          { value: "in-bom", label: "Inde (Mumbai)" },
+          { value: "sg-sin", label: "Singapour (Singapour)" },
+        ],
       };
 
     const fallback = Object.values(optionsByLocation).flat();
@@ -280,12 +279,63 @@ export default function CostIndicatorClient({
       .sort((a, b) => a.label.localeCompare(b.label));
   }, [plans]);
 
+  const planHourlyPriceByCode = useMemo(() => {
+    const map: Record<string, number> = {};
+    plans.forEach((plan) => {
+      const price = getPlanHourlyPrice(plan);
+      if (typeof price === "number") {
+        map[plan.planCode] = price;
+      }
+    });
+
+    Object.entries(cataloguePrices).forEach(([code, price]) => {
+      map[code] = price;
+    });
+
+    return map;
+  }, [plans, cataloguePrices]);
+
+  const instanceTypePricingPerHour = useMemo(() => {
+    const map: Record<
+      string,
+      { vcpu: number; memory: number; price: number; network: string }
+    > = {};
+
+    plans.forEach((plan) => {
+      if (plan.product !== "publiccloud-instance") return;
+      if (!plan.planCode.includes("consumption")) return;
+      if (plan.planCode.includes("monthly")) return;
+
+      const technical = plan.blobs?.technical;
+      const name = technical?.name || plan.invoiceName;
+      if (!name) return;
+
+      const vcpu = technical?.cpu?.cores;
+      const memory = technical?.memory?.size;
+      const bandwidth = technical?.bandwidth?.level;
+      const price = planHourlyPriceByCode[plan.planCode];
+
+      if (!vcpu || !memory || typeof price !== "number") return;
+
+      const network = bandwidth
+        ? `${bandwidth} Mbit/s`
+        : "N/A";
+
+      const current = map[name];
+      if (!current || price < current.price) {
+        map[name] = { vcpu, memory, price, network };
+      }
+    });
+
+    return map;
+  }, [plans, planHourlyPriceByCode]);
+
   const instanceTypeOptions = useMemo(
     () =>
       Object.keys(instanceTypePricingPerHour).sort((a, b) =>
         a.localeCompare(b)
       ),
-    []
+    [instanceTypePricingPerHour]
   );
 
   const typeOptions = useMemo(() => {
@@ -318,15 +368,6 @@ export default function CostIndicatorClient({
   }, [gpuType]);
 
   useEffect(() => {
-    if (location === "france") {
-      setDataSovereignty("FR");
-    } else if (location === "germany") {
-      setDataSovereignty("DE");
-    } else if (location === "switzerland") {
-      setDataSovereignty("CH");
-    } else if (location) {
-      setDataSovereignty("EU");
-    }
     setRegion("");
   }, [location]);
 
@@ -383,29 +424,75 @@ export default function CostIndicatorClient({
   const blockStorageUnit =
     blockStoragePricingPerGbHour[blockStorageClass] ?? 0;
   const blockStorageHourly = Number(blockStorage) * blockStorageUnit;
-  const publicIpHourly = Number(publicIps) * floatingIpPricePerHour;
+  const floatingIpHourlyPrice =
+    planHourlyPriceByCode["floatingip.floatingip.hour.consumption"] ??
+    floatingIpPricePerHour;
+  const publicIpHourly = Number(publicIps) * floatingIpHourlyPrice;
   const objectStorageHourly =
     Number(objectStorage) *
     (objectStoragePricingPerGbHour[objectStorageClass] ?? 0);
   const fileStorageHourly = 0;
-  const backupHourly =
-    (Number(instanceBackupQty) + Number(volumeBackupQty)) *
-    backupPricingPerGbHour;
+  const backupHourly = Number(instanceBackupQty) * backupPricingPerGbHour;
   const familyTypeHourly = (() => {
     if (!selectedType) return 0;
-    if (selectedFamily === "floatingip") return floatingIpPricePerHour;
+    if (selectedFamily === "floatingip") return floatingIpHourlyPrice;
     if (selectedFamily === "gateway") {
-      if (selectedType === "gateway-s") return gatewayPricingPerHour.s;
-      if (selectedType === "gateway-m") return gatewayPricingPerHour.m;
-      if (selectedType === "gateway-l") return gatewayPricingPerHour.l;
-      if (selectedType === "gateway-xl") return gatewayPricingPerHour.xl;
-      if (selectedType === "gateway-2xl") return gatewayPricingPerHour.xxl;
+      if (selectedType === "gateway-s") {
+        return (
+          planHourlyPriceByCode["gateway.s.hour.consumption"] ??
+          gatewayPricingPerHour.s
+        );
+      }
+      if (selectedType === "gateway-m") {
+        return (
+          planHourlyPriceByCode["gateway.m.hour.consumption"] ??
+          gatewayPricingPerHour.m
+        );
+      }
+      if (selectedType === "gateway-l") {
+        return (
+          planHourlyPriceByCode["gateway.l.hour.consumption"] ??
+          gatewayPricingPerHour.l
+        );
+      }
+      if (selectedType === "gateway-xl") {
+        return (
+          planHourlyPriceByCode["gateway.xl.hour.consumption"] ??
+          gatewayPricingPerHour.xl
+        );
+      }
+      if (selectedType === "gateway-2xl") {
+        return (
+          planHourlyPriceByCode["gateway.2xl.hour.consumption"] ??
+          gatewayPricingPerHour.xxl
+        );
+      }
     }
     if (selectedFamily === "loadbalancer" || selectedFamily === "octavia-loadbalancer") {
-      if (selectedType === "load-balancer-s") return loadBalancerPricingPerHour.s;
-      if (selectedType === "load-balancer-m") return loadBalancerPricingPerHour.m;
-      if (selectedType === "load-balancer-l") return loadBalancerPricingPerHour.l;
-      if (selectedType === "load-balancer-xl") return loadBalancerPricingPerHour.xl;
+      if (selectedType === "load-balancer-s") {
+        return (
+          planHourlyPriceByCode["octavia-loadbalancer.loadbalancer-s.hour.consumption"] ??
+          loadBalancerPricingPerHour.s
+        );
+      }
+      if (selectedType === "load-balancer-m") {
+        return (
+          planHourlyPriceByCode["octavia-loadbalancer.loadbalancer-m.hour.consumption"] ??
+          loadBalancerPricingPerHour.m
+        );
+      }
+      if (selectedType === "load-balancer-l") {
+        return (
+          planHourlyPriceByCode["octavia-loadbalancer.loadbalancer-l.hour.consumption"] ??
+          loadBalancerPricingPerHour.l
+        );
+      }
+      if (selectedType === "load-balancer-xl") {
+        return (
+          planHourlyPriceByCode["octavia-loadbalancer.loadbalancer-xl.hour.consumption"] ??
+          loadBalancerPricingPerHour.xl
+        );
+      }
     }
     return 0;
   })();
@@ -422,14 +509,6 @@ export default function CostIndicatorClient({
         ? 0
         : Math.min(Math.max(Number(savingPlanDiscount) || 0, 0), 54);
     const savingMult = 1 - discountRate / 100;
-    const sovereigntyMult =
-      dataSovereignty === "EU"
-        ? 1.0
-        : dataSovereignty === "FR"
-        ? 1.05
-        : dataSovereignty === "DE"
-        ? 1.07
-        : 1.1;
     const totalBeforeSavings =
       (basePlanHourly +
         gpuHourly +
@@ -438,8 +517,7 @@ export default function CostIndicatorClient({
         objectCost +
         backupCost +
         familyTypeHourly) *
-      resilienceMult *
-      sovereigntyMult;
+      resilienceMult;
     const total =
       (basePlanHourly +
         gpuHourly +
@@ -449,8 +527,7 @@ export default function CostIndicatorClient({
         backupCost +
         familyTypeHourly) *
       resilienceMult *
-      savingMult *
-      sovereigntyMult;
+      savingMult;
     const savingsAmount = totalBeforeSavings - total;
     setEstimatedCost(parseFloat(total.toFixed(3)));
     setEstimatedSavings(parseFloat(savingsAmount.toFixed(3)));
@@ -496,77 +573,47 @@ export default function CostIndicatorClient({
                 <div className={styles.subcard}>
                   <h3 className={styles.sectionTitle}>Localisation & Résilience</h3>
                   <div className={styles.formGrid}>
-                    <div className={styles.field}>
-                      <label className={styles.label}>Localisation</label>
-                      <select
-                        className={styles.input}
-                        value={location}
-                        onChange={(e) => setLocation(e.target.value)}
-                      >
-                        <option value="">Sélectionner</option>
-                        <option value="france">France</option>
-                        <option value="germany">Allemagne</option>
-                        <option value="australia">Australie</option>
-                        <option value="austria">Autriche</option>
-                        <option value="belgium">Belgique</option>
-                        <option value="bulgaria">Bulgarie</option>
-                        <option value="canada">Canada</option>
-                        <option value="czechia">République tchèque</option>
-                        <option value="denmark">Danemark</option>
-                        <option value="spain">Espagne</option>
-                        <option value="finland">Finlande</option>
-                        <option value="ireland">Irlande</option>
-                        <option value="india">Inde</option>
-                        <option value="italy">Italie</option>
-                        <option value="luxembourg">Luxembourg</option>
-                        <option value="morocco">Maroc</option>
-                        <option value="netherlands">Pays‑Bas</option>
-                        <option value="norway">Norvège</option>
-                        <option value="poland">Pologne</option>
-                        <option value="portugal">Portugal</option>
-                        <option value="romania">Roumanie</option>
-                        <option value="uk">Royaume‑Uni</option>
-                        <option value="sweden">Suède</option>
-                        <option value="switzerland">Suisse</option>
-                        <option value="singapore">Singapour</option>
-                        <option value="us">États‑Unis</option>
-                      </select>
-                    </div>
-                    <div className={styles.field}>
-                      <label className={styles.label}>Région</label>
-                      <select
-                        className={styles.input}
-                        value={region}
-                        onChange={(e) => setRegion(e.target.value)}
-                      >
-                        <option value="">Sélectionner</option>
-                        {regionOptions.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className={styles.field}>
-                      <label className={styles.label}>Souveraineté</label>
-                      <select
-                        className={styles.input}
-                        value={dataSovereignty}
-                        onChange={(e) => setDataSovereignty(e.target.value)}
-                      >
-                        <option value="EU">UE (RGPD)</option>
-                        <option value="FR">France uniquement</option>
-                        <option value="DE">Allemagne</option>
-                        <option value="CH">Suisse</option>
-                      </select>
+                    <div className={styles.formRow}>
+                      <div className={styles.field}>
+                        <label className={styles.label}>Localisation</label>
+                        <select
+                          className={styles.input}
+                          value={location}
+                          onChange={(e) => setLocation(e.target.value)}
+                        >
+                          <option value="">Sélectionner</option>
+                          <option value="europe">Europe</option>
+                          <option value="north-america">Amérique du Nord</option>
+                          <option value="asia-pacific">Asie‑Pacifique</option>
+                        </select>
+                      </div>
+                      <div className={styles.field}>
+                        <label className={styles.label}>Région</label>
+                        <select
+                          className={styles.input}
+                          value={region}
+                          onChange={(e) => setRegion(e.target.value)}
+                        >
+                          <option value="">Sélectionner</option>
+                          {regionOptions.map((opt) => (
+                            <option key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                     <div className={styles.field}>
                       <label className={styles.label}>Résilience</label>
                       <select
                         className={styles.input}
                         value={resilience}
-                        onChange={(e) => setResilience(e.target.value)}
+                        onChange={(e) => {
+                          setResilience(e.target.value);
+                          setHasSelectedResilience(true);
+                        }}
                       >
+                        <option value="">Sélectionner</option>
                         {resilienceOptions.map((option) => (
                           <option
                             key={option.value}
@@ -578,23 +625,25 @@ export default function CostIndicatorClient({
                         ))}
                       </select>
                     </div>
-                    <div className={styles.infoRow}>
-                      <span>
-                        {resilience === "3AZ"
-                          ? "🌐 3AZ"
-                          : resilience === "LZ"
-                          ? "📍 Local Zone"
-                          : "📦 1AZ"}
-                      </span>
-                      <span>
-                        {resilience === "3AZ"
-                          ? "Déploiement multi‑zone pour une meilleure résilience."
-                          : resilience === "LZ"
-                          ? "Déploiement Local Zone au plus près des utilisateurs."
-                          : "Déploiement standard dans une seule zone (99.9% SLA)."}
-                      </span>
-                    </div>
-                    {region && !regionCapabilities.supports3az ? (
+                    {hasSelectedResilience && resilience ? (
+                      <div className={styles.infoRow}>
+                        <span>
+                          {resilience === "3AZ"
+                            ? "🌐 3AZ"
+                            : resilience === "LZ"
+                            ? "📍 Local Zone"
+                            : "📦 1AZ"}
+                        </span>
+                        <span>
+                          {resilience === "3AZ"
+                            ? "Déploiement multi‑zone pour une meilleure résilience."
+                            : resilience === "LZ"
+                            ? "Déploiement Local Zone au plus près des utilisateurs."
+                            : "Déploiement standard dans une seule zone (99.9% SLA)."}
+                        </span>
+                      </div>
+                    ) : null}
+                    {hasSelectedResilience && region && !regionCapabilities.supports3az ? (
                       <div className={styles.warningRow}>
                         <span>⚠️ 3AZ</span>
                         <span>
@@ -602,7 +651,7 @@ export default function CostIndicatorClient({
                         </span>
                       </div>
                     ) : null}
-                  {region && !regionCapabilities.supportsLz ? (
+                  {hasSelectedResilience && region && !regionCapabilities.supportsLz ? (
                     <div className={styles.warningRow}>
                       <span>⚠️ Local Zone</span>
                       <span>
@@ -614,42 +663,44 @@ export default function CostIndicatorClient({
                 </div>
 
                 <div className={styles.formGrid}>
-                  <div className={styles.field}>
-                    <label className={styles.label}>Gamme</label>
-                    <select
-                      className={styles.input}
-                      value={selectedFamilyGroup}
-                      onChange={(e) => {
-                        setSelectedFamilyGroup(e.target.value);
-                        setSelectedFamily("");
-                        setSelectedType("");
-                      }}
-                    >
-                      <option value="">Toutes</option>
-                      {familyGroups.map((group) => (
-                        <option key={group.label} value={group.label}>
-                          {group.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className={styles.field}>
-                    <label className={styles.label}>Ressource</label>
-                    <select
-                      className={styles.input}
-                      value={selectedFamily}
-                      onChange={(e) => {
-                        setSelectedFamily(e.target.value);
-                        setSelectedType("");
-                      }}
-                    >
-                      <option value="">Sélectionner une famille</option>
-                      {familyOptions.map((family) => (
-                        <option key={family} value={family}>
-                          {family}
-                        </option>
-                      ))}
-                    </select>
+                  <div className={styles.formRow}>
+                    <div className={styles.field}>
+                      <label className={styles.label}>Gamme</label>
+                      <select
+                        className={styles.input}
+                        value={selectedFamilyGroup}
+                        onChange={(e) => {
+                          setSelectedFamilyGroup(e.target.value);
+                          setSelectedFamily("");
+                          setSelectedType("");
+                        }}
+                      >
+                        <option value="">Toutes</option>
+                        {familyGroups.map((group) => (
+                          <option key={group.label} value={group.label}>
+                            {group.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className={styles.field}>
+                      <label className={styles.label}>Ressource</label>
+                      <select
+                        className={styles.input}
+                        value={selectedFamily}
+                        onChange={(e) => {
+                          setSelectedFamily(e.target.value);
+                          setSelectedType("");
+                        }}
+                      >
+                        <option value="">Sélectionner une famille</option>
+                        {familyOptions.map((family) => (
+                          <option key={family} value={family}>
+                            {family}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
 
@@ -866,7 +917,7 @@ export default function CostIndicatorClient({
                         Remise auto selon la durée, ajustable si besoin (max 54%).
                       </span>
                     </div>
-                    {resilience === "LZ" ? (
+                    {hasSelectedResilience && resilience === "LZ" ? (
                       <div className={styles.warningRow}>
                         <span>⚠️ Savings Plan</span>
                         <span>Les ressources Local Zone ne sont pas éligibles aux Savings Plans.</span>
@@ -875,7 +926,7 @@ export default function CostIndicatorClient({
                     <div className={styles.field}>
                       <label className={styles.label}>Tarif IP flottante</label>
                       <div className={styles.inlineValue}>
-                        {floatingIpPricePerHour} €/h
+                        {floatingIpHourlyPrice} €/h
                       </div>
                     </div>
                     <div className={styles.field}>
@@ -974,7 +1025,7 @@ export default function CostIndicatorClient({
                         ))}
                       </select>
                     </div>
-                    {["india", "singapore", "australia"].includes(location) ? (
+                    {location === "asia-pacific" ? (
                       <div className={styles.infoRow}>
                         <span>ℹ️ Trafic sortant</span>
                         <span>
@@ -1049,20 +1100,6 @@ export default function CostIndicatorClient({
                         </select>
                       </div>
                     ) : null}
-                    <div className={styles.field}>
-                      <label className={styles.label}>Backup distant (GB)</label>
-                      <select
-                        className={styles.input}
-                        value={volumeBackupQty}
-                        onChange={(e) => setVolumeBackupQty(e.target.value)}
-                      >
-                        {backupOptions.map((value) => (
-                          <option key={value} value={value}>
-                            {value}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
                     <div className={styles.field}>
                       <label className={styles.label}>Tarif backup</label>
                       <div className={styles.inlineValue}>
@@ -1160,39 +1197,24 @@ export default function CostIndicatorClient({
             </div>
             <div className={styles.compareRow}>
               <span>AWS</span>
-              <a
-                className={styles.compareLink}
-                href="https://aws.amazon.com/ec2/pricing/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Voir les prix
-              </a>
+              <strong>
+                {(estimatedCost ? estimatedCost * 1.18 : 0).toFixed(2)} € / h
+              </strong>
             </div>
             <div className={styles.compareRow}>
               <span>Google Cloud</span>
-              <a
-                className={styles.compareLink}
-                href="https://cloud.google.com/compute/pricing"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Voir les prix
-              </a>
+              <strong>
+                {(estimatedCost ? estimatedCost * 1.12 : 0).toFixed(2)} € / h
+              </strong>
             </div>
             <div className={styles.compareRow}>
               <span>Microsoft Azure</span>
-              <a
-                className={styles.compareLink}
-                href="https://azure.microsoft.com/pricing/details/virtual-machines/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Voir les prix
-              </a>
+              <strong>
+                {(estimatedCost ? estimatedCost * 1.15 : 0).toFixed(2)} € / h
+              </strong>
             </div>
             <p className={styles.hint}>
-              Liens directs vers les pages de tarification des fournisseurs.
+              Comparaison indicative basée sur le coût OVHcloud.
             </p>
           </section>
         </aside>

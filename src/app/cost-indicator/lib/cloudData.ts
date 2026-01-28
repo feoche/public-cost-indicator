@@ -124,4 +124,44 @@ export function getCatalogLocale(): CloudCatalog["locale"] {
   return catalog.locale;
 }
 
+/**
+ * Parse catalogue-produits.md to extract pricing by plan code.
+ */
+export function getCataloguePrices(): Record<string, number> {
+  const prices: Record<string, number> = {};
+  const filePath = path.resolve(process.cwd(), "docs/catalogue-produits.md");
+  const raw = fs.readFileSync(filePath, "utf8");
+  const lines = raw.split(/\r?\n/);
+
+  let currentCode: string | null = null;
+  let inPriceBlock = false;
+
+  for (const line of lines) {
+    const codeMatch = line.match(/\*\*Code plan:\*\*\s*`([^`]+)`/);
+    if (codeMatch) {
+      currentCode = codeMatch[1];
+      inPriceBlock = false;
+      continue;
+    }
+
+    if (line.startsWith("**Prix:**")) {
+      inPriceBlock = true;
+      continue;
+    }
+
+    if (inPriceBlock && currentCode) {
+      const priceMatch = line.match(/-\s*([\d.,]+)\s*€\s*\/\s*1\s*none/i);
+      if (priceMatch) {
+        const value = parseFloat(priceMatch[1].replace(",", "."));
+        if (!Number.isNaN(value)) {
+          prices[currentCode] = value;
+        }
+        inPriceBlock = false;
+      }
+    }
+  }
+
+  return prices;
+}
+
 export default catalog;
