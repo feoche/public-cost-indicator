@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 
 // Pricing dataset derived from cloud.json. Only a subset shown here for illustration.
