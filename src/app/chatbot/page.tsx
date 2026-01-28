@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import MarkdownRenderer from '@/components/MarkdownRenderer';
 
 interface Message {
   id: number;
@@ -118,7 +119,11 @@ const ChatbotPage = () => {
                   color: message.sender === 'user' ? '#fff' : 'var(--foreground)',
                 }}
               >
-                {message.text}
+                {message.sender === 'bot' ? (
+                  <MarkdownRenderer content={message.text} />
+                ) : (
+                  message.text
+                )}
               </div>
             </div>
           ))
