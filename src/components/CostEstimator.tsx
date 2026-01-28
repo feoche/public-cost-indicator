@@ -64,6 +64,9 @@ const gammesList = (() => {
   return list;
 })();
 
+const STORAGE_MAX_GB = 500;
+const PUBLIC_IP_MAX = 20;
+
 type FormState = {
   gammeId: string;
   flavorPlanCode: string;
@@ -137,35 +140,37 @@ export default function CostEstimator() {
 
   return (
     <div className="cost-estimator">
-      <h2>Calculateur de coût – Instances Compute</h2>
-      <p className="cost-estimator-intro">
-        Choisissez le type d&apos;instance (CPU, RAM, stockage), l&apos;OS et les options. Les prix sont basés sur le catalogue Public Cloud (cloud.json).
-      </p>
+      <header className="cost-estimator-header">
+        <h2>Calculateur de coût – Instances Compute</h2>
+        <p className="cost-estimator-intro">
+          Choisissez le type d&apos;instance (CPU, RAM, stockage), l&apos;OS et les options. Les prix
+          sont basés sur le catalogue Public Cloud.
+        </p>
+      </header>
 
-      <section className="cost-estimator-section">
-        <h3>Compute</h3>
-        <label>
-          <span>Gamme</span>
-          <select
-            value={form.gammeId}
-            onChange={(e) => {
-              const gid = e.target.value;
-              const firstInGamme = linuxFlavors.find((f) => gammeId(f) === gid);
-              setForm((prev) => ({
-                ...prev,
-                gammeId: gid,
-                flavorPlanCode: firstInGamme?.planCode ?? prev.flavorPlanCode,
-              }));
-            }}
-          >
-            {gammesList.map((g) => (
-              <option key={g.id} value={g.id}>
-                {g.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
+      <section className="cost-estimator-card">
+        <h3>Gamme</h3>
+        <div className="cost-estimator-gammes" role="group" aria-label="Choisir une gamme">
+          {gammesList.map((g) => (
+            <button
+              key={g.id}
+              type="button"
+              className={`cost-estimator-gamme-card ${form.gammeId === g.id ? "selected" : ""}`}
+              onClick={() => {
+                const firstInGamme = linuxFlavors.find((f) => gammeId(f) === g.id);
+                setForm((prev) => ({
+                  ...prev,
+                  gammeId: g.id,
+                  flavorPlanCode: firstInGamme?.planCode ?? prev.flavorPlanCode,
+                }));
+              }}
+            >
+              {g.label}
+            </button>
+          ))}
+        </div>
+
+        <label className="cost-estimator-field">
           <span>Type d&apos;instance</span>
           <select
             value={
@@ -182,61 +187,79 @@ export default function CostEstimator() {
             ))}
           </select>
         </label>
-        <label>
+
+        <div className="cost-estimator-field">
           <span>OS préinstallé</span>
-          <select
-            value={form.os}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, os: e.target.value as "linux" | "windows" }))
-            }
-          >
-            <option value="linux">Linux</option>
-            <option value="windows">Windows</option>
-          </select>
-        </label>
+          <div className="cost-estimator-os-cards" role="group" aria-label="Choisir l'OS">
+            <button
+              type="button"
+              className={`cost-estimator-os-card ${form.os === "linux" ? "selected" : ""}`}
+              onClick={() => setForm((prev) => ({ ...prev, os: "linux" }))}
+            >
+              Linux
+            </button>
+            <button
+              type="button"
+              className={`cost-estimator-os-card ${form.os === "windows" ? "selected" : ""}`}
+              onClick={() => setForm((prev) => ({ ...prev, os: "windows" }))}
+            >
+              Windows
+            </button>
+          </div>
+        </div>
       </section>
 
-      <section className="cost-estimator-section">
+      <section className="cost-estimator-card">
         <h3>Stockage</h3>
         <p className="cost-estimator-hint">
           Stockage inclus avec l&apos;instance : <strong>{selectedFlavor?.storageGb ?? 0} Go</strong>
         </p>
-        <label>
-          <span>Stockage additionnel (Go)</span>
+        <label className="cost-estimator-field cost-estimator-slider-field">
+          <span>
+            Stockage additionnel : <strong>{form.additionalStorageGb} Go</strong>
+          </span>
           <input
-            type="number"
+            type="range"
             min={0}
+            max={STORAGE_MAX_GB}
+            step={10}
             value={form.additionalStorageGb}
             onChange={(e) =>
               setForm((prev) => ({
                 ...prev,
-                additionalStorageGb: Math.max(0, Number(e.target.value) || 0),
+                additionalStorageGb: Number(e.target.value),
               }))
             }
+            className="cost-estimator-slider"
           />
         </label>
       </section>
 
-      <section className="cost-estimator-section">
+      <section className="cost-estimator-card">
         <h3>Réseau</h3>
-        <label>
-          <span>Nombre d&apos;adresses IP publiques</span>
+        <label className="cost-estimator-field cost-estimator-slider-field">
+          <span>
+            Adresses IP publiques : <strong>{form.publicIpCount}</strong>
+          </span>
           <input
-            type="number"
+            type="range"
             min={0}
+            max={PUBLIC_IP_MAX}
+            step={1}
             value={form.publicIpCount}
             onChange={(e) =>
               setForm((prev) => ({
                 ...prev,
-                publicIpCount: Math.max(0, Math.floor(Number(e.target.value) || 0)),
+                publicIpCount: Number(e.target.value),
               }))
             }
+            className="cost-estimator-slider"
           />
         </label>
       </section>
 
       <div className="cost-estimator-actions">
-        <button type="button" onClick={calculate} disabled={loading}>
+        <button type="button" onClick={calculate} disabled={loading} className="cost-estimator-cta">
           {loading ? "Calcul en cours…" : "Calculer le coût"}
         </button>
       </div>
@@ -244,7 +267,7 @@ export default function CostEstimator() {
       {error && <p className="cost-estimator-error">{error}</p>}
 
       {result && (
-        <section className="cost-estimator-section cost-estimator-result">
+        <section className="cost-estimator-card cost-estimator-result">
           <h3>Répartition du coût ({result.unit})</h3>
           <ul>
             {Object.entries(result.breakdown).map(([label, value]) => (
