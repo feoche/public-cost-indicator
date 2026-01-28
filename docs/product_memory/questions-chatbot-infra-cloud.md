@@ -1,13 +1,14 @@
 # Questions Types pour Chatbot de Sélection d'Infrastructure Cloud OVH
 
 Ce document propose une série de questions types à poser aux utilisateurs pour les aider à choisir leur infrastructure cloud OVHcloud Public Cloud et estimer les coûts.
+Les informations entre parenthèses ne doivent pas être affichées mais doivent être prises en compte.
 
 ---
 
 ## 🎯 Questions d'Introduction et de Contexte
 
 ### 1. Objectif principal du projet
-- **Question :** "Quel est l'objectif principal de votre projet cloud ?"
+- **Question :** "Quel est l'objectif principal de votre projet cloud ?" (obligatoire)
   - Développer une application web/mobile
   - Héberger une base de données
   - Faire du machine learning / IA
