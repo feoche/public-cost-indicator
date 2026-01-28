@@ -9,9 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ovhcloud/ods-react": "^19.4.1",
+    "@ovhcloud/ods-themes": "^19.4.1",
     "next": "16.1.5",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "zustand": "^5.0.10"
   },
   "devDependencies": {
     "@types/node": "^20",
