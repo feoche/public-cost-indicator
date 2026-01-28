@@ -1,0 +1,19 @@
+/* CostSummary styling */
+.container {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 1rem;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+.title {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  color: #111827;
+}
+.container p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  color: #4b5563;
+}
