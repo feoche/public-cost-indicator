@@ -3,7 +3,7 @@ import { createMessage, getMessage, sanitizeMessage } from "./utils";
 
 const DEFAULT_THINKING_MESSAGE = "Réfléchit à une solution pour vous...";
 
-export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function POST(request: NextRequest, { params }: { '/params': { id: string } }) {
     try {
         const body = await request.json();
         const message = sanitizeMessage(body.message);

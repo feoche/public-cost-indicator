@@ -14,12 +14,6 @@
   --chatbot-button-disabled: #cccccc;
   --chatbot-loading-bg: #f5f5f5;
   --chatbot-loading-text: #666666;
-  --chatbot-code-bg: rgba(0, 0, 0, 0.08);
-}
-
-/* Force light mode */
-html {
-  color-scheme: light;
 }
 
 html,
@@ -31,7 +25,7 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -46,36 +40,5 @@ input::placeholder {
   }
   to {
     opacity: 1;
-  }
-}
-
-/* Split layout helpers */
-.split-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  height: calc(100vh - 2rem);
-}
-
-.panel {
-  border: 1px solid #e5e5e5;
-  border-radius: 12px;
-  overflow: hidden;
-  min-height: 0;
-}
-
-/* Accessibility utility */
-.visually-hidden {
-  position: absolute !important;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap;
-}
-
-@media (max-width: 900px) {
-  .split-layout {
-    grid-template-columns: 1fr;
   }
 }

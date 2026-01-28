@@ -28,7 +28,7 @@ export const sanitizeMessage = (message?: string) => {
     if (!message || message.length === 0) {
         throw new Error('Message cannot be empty');
     }
-    if (message.length > 500) {
+    if (message.length > 5000) {
         throw new Error('Message cannot be longer than 1000 characters');
     }
     return message.trim();

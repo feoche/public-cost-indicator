@@ -1,0 +1,210 @@
+.summary {
+  background: var(--ovh-color-neutral-0);
+  border-radius: var(--ovh-radius-xl);
+  box-shadow: var(--ovh-shadow-lg);
+  padding: var(--ovh-spacing-xl);
+  position: sticky;
+  top: var(--ovh-spacing-xl);
+  border: 1px solid var(--ovh-color-neutral-200);
+}
+
+.title {
+  font-size: var(--ovh-font-size-2xl);
+  font-weight: var(--ovh-font-weight-bold);
+  color: var(--ovh-color-secondary);
+  margin: 0 0 var(--ovh-spacing-xl) 0;
+}
+
+.emptyState {
+  text-align: center;
+  padding: var(--ovh-spacing-3xl) 0;
+}
+
+.emptyText {
+  color: var(--ovh-color-neutral-600);
+  margin: 0;
+  font-size: var(--ovh-font-size-md);
+  font-weight: var(--ovh-font-weight-medium);
+}
+
+.emptySubtext {
+  font-size: var(--ovh-font-size-sm);
+  color: var(--ovh-color-neutral-500);
+  margin-top: var(--ovh-spacing-sm);
+}
+
+.itemsList {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: var(--ovh-spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ovh-spacing-md);
+}
+
+.item {
+  border: 2px solid var(--ovh-color-neutral-200);
+  border-radius: var(--ovh-radius-lg);
+  padding: var(--ovh-spacing-md);
+  background: var(--ovh-color-neutral-50);
+  transition: all var(--ovh-transition-base);
+}
+
+.item:hover {
+  border-color: var(--ovh-color-neutral-300);
+  box-shadow: var(--ovh-shadow-sm);
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--ovh-spacing-md);
+}
+
+.itemInfo {
+  flex: 1;
+}
+
+.itemName {
+  font-size: var(--ovh-font-size-sm);
+  font-weight: var(--ovh-font-weight-semibold);
+  color: var(--ovh-color-secondary);
+  margin: 0 0 var(--ovh-spacing-xs) 0;
+}
+
+.itemFlavor {
+  font-size: var(--ovh-font-size-xs);
+  color: var(--ovh-color-neutral-600);
+  margin: 0;
+}
+
+.removeButton {
+  color: var(--ovh-color-error);
+  background: none;
+  border: none;
+  font-size: var(--ovh-font-size-xl);
+  cursor: pointer;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--ovh-transition-fast);
+  border-radius: var(--ovh-radius-sm);
+}
+
+.removeButton:hover {
+  color: var(--ovh-color-error-dark);
+  background: var(--ovh-color-error-light);
+  background: rgba(244, 67, 54, 0.1);
+}
+
+.itemDetails {
+  font-size: var(--ovh-font-size-xs);
+  color: var(--ovh-color-neutral-600);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ovh-spacing-sm);
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detailValue {
+  font-weight: var(--ovh-font-weight-semibold);
+  color: var(--ovh-color-neutral-700);
+}
+
+.itemTotal {
+  margin-top: var(--ovh-spacing-md);
+  padding-top: var(--ovh-spacing-md);
+  border-top: 1px solid var(--ovh-color-neutral-200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.subtotalLabel {
+  font-size: var(--ovh-font-size-xs);
+  font-weight: var(--ovh-font-weight-semibold);
+  color: var(--ovh-color-neutral-700);
+  text-transform: uppercase;
+}
+
+.subtotalValue {
+  font-size: var(--ovh-font-size-sm);
+  font-weight: var(--ovh-font-weight-bold);
+  color: var(--ovh-color-primary);
+}
+
+.totalSection {
+  border-top: 2px solid var(--ovh-color-neutral-300);
+  padding-top: var(--ovh-spacing-md);
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--ovh-spacing-md);
+}
+
+.totalLabel {
+  font-size: var(--ovh-font-size-lg);
+  font-weight: var(--ovh-font-weight-bold);
+  color: var(--ovh-color-secondary);
+}
+
+.totalValue {
+  font-size: var(--ovh-font-size-2xl);
+  font-weight: var(--ovh-font-weight-bold);
+  color: var(--ovh-color-primary);
+}
+
+.taxInfo {
+  font-size: var(--ovh-font-size-xs);
+  color: var(--ovh-color-neutral-600);
+  margin-bottom: var(--ovh-spacing-md);
+  padding: var(--ovh-spacing-md);
+  background: var(--ovh-color-neutral-100);
+  border-radius: var(--ovh-radius-md);
+}
+
+.taxInfo p {
+  margin: var(--ovh-spacing-xs) 0;
+}
+
+.totalTTC {
+  font-weight: var(--ovh-font-weight-semibold);
+  color: var(--ovh-color-neutral-800) !important;
+  margin-top: var(--ovh-spacing-sm) !important;
+  font-size: var(--ovh-font-size-sm);
+}
+
+.downloadButton {
+  width: 100%;
+  background: var(--ovh-color-secondary);
+  color: var(--ovh-color-neutral-0);
+  border: none;
+  padding: var(--ovh-spacing-md);
+  border-radius: var(--ovh-radius-lg);
+  font-weight: var(--ovh-font-weight-semibold);
+  font-size: var(--ovh-font-size-sm);
+  cursor: pointer;
+  transition: all var(--ovh-transition-base);
+  box-shadow: var(--ovh-shadow-sm);
+}
+
+.downloadButton:hover {
+  background: var(--ovh-color-secondary-dark);
+  box-shadow: var(--ovh-shadow-md);
+  transform: translateY(-1px);
+}
+
+.downloadButton:active {
+  transform: translateY(0);
+}
