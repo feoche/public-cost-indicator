@@ -64,14 +64,32 @@ const MarkdownRenderer = ({ content }: MarkdownRendererProps) => {
       // If we were in a list, close it
       if (inList) {
         elements.push(
-          <ol key={`list-${index}`} style={{ margin: '8px 0', paddingLeft: '20px' }}>
+          <ol key={`list-${index}`} style={{ 
+            margin: '8px 0', 
+            paddingLeft: '24px',
+            color: 'inherit',
+          }}>
             {currentList.map((item, itemIndex) => (
-              <li key={itemIndex} style={{ marginBottom: '8px', lineHeight: '1.6' }}>
+              <li key={itemIndex} style={{ 
+                marginBottom: '8px', 
+                lineHeight: '1.6',
+                color: 'inherit',
+              }}>
                 <div>{processInlineMarkdown(item.content)}</div>
                 {item.subItems.length > 0 && (
-                  <ul style={{ marginTop: '4px', marginBottom: '4px', paddingLeft: '20px', listStyleType: 'disc' }}>
+                  <ul style={{ 
+                    marginTop: '6px', 
+                    marginBottom: '4px', 
+                    paddingLeft: '24px', 
+                    listStyleType: 'disc',
+                    color: 'inherit',
+                  }}>
                     {item.subItems.map((subItem, subIndex) => (
-                      <li key={subIndex} style={{ marginBottom: '4px', lineHeight: '1.5' }}>
+                      <li key={subIndex} style={{ 
+                        marginBottom: '4px', 
+                        lineHeight: '1.5',
+                        color: 'inherit',
+                      }}>
                         {processInlineMarkdown(subItem)}
                       </li>
                     ))}
@@ -88,7 +106,11 @@ const MarkdownRenderer = ({ content }: MarkdownRendererProps) => {
       // Process regular lines
       if (trimmedLine) {
         elements.push(
-          <p key={`line-${index}`} style={{ margin: '8px 0', lineHeight: '1.6' }}>
+          <p key={`line-${index}`} style={{ 
+            margin: '8px 0', 
+            lineHeight: '1.6',
+            color: 'inherit',
+          }}>
             {processInlineMarkdown(trimmedLine)}
           </p>
         );
@@ -102,14 +124,32 @@ const MarkdownRenderer = ({ content }: MarkdownRendererProps) => {
   // Close any remaining list
   if (inList && currentList.length > 0) {
     elements.push(
-      <ol key={`list-final`} style={{ margin: '8px 0', paddingLeft: '20px' }}>
+      <ol key={`list-final`} style={{ 
+        margin: '8px 0', 
+        paddingLeft: '24px',
+        color: 'inherit',
+      }}>
         {currentList.map((item, itemIndex) => (
-          <li key={itemIndex} style={{ marginBottom: '8px', lineHeight: '1.6' }}>
+          <li key={itemIndex} style={{ 
+            marginBottom: '8px', 
+            lineHeight: '1.6',
+            color: 'inherit',
+          }}>
             <div>{processInlineMarkdown(item.content)}</div>
             {item.subItems.length > 0 && (
-              <ul style={{ marginTop: '4px', marginBottom: '4px', paddingLeft: '20px', listStyleType: 'disc' }}>
+              <ul style={{ 
+                marginTop: '6px', 
+                marginBottom: '4px', 
+                paddingLeft: '24px', 
+                listStyleType: 'disc',
+                color: 'inherit',
+              }}>
                 {item.subItems.map((subItem, subIndex) => (
-                  <li key={subIndex} style={{ marginBottom: '4px', lineHeight: '1.5' }}>
+                  <li key={subIndex} style={{ 
+                    marginBottom: '4px', 
+                    lineHeight: '1.5',
+                    color: 'inherit',
+                  }}>
                     {processInlineMarkdown(subItem)}
                   </li>
                 ))}
@@ -121,7 +161,7 @@ const MarkdownRenderer = ({ content }: MarkdownRendererProps) => {
     );
   }
 
-  return <div style={{ wordBreak: 'break-word' }}>{elements}</div>;
+  return <div style={{ wordBreak: 'break-word', color: 'inherit' }}>{elements}</div>;
 };
 
 export default MarkdownRenderer;

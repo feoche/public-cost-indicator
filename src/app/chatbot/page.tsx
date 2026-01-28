@@ -84,20 +84,35 @@ const ChatbotPage = () => {
       maxWidth: '800px',
       margin: '0 auto',
       padding: '20px',
+      backgroundColor: 'var(--background)',
+      color: 'var(--foreground)',
     }}>
-      <h1 style={{ marginBottom: '20px' }}>Chatbot</h1>
+      <h1 style={{ 
+        marginBottom: '24px',
+        fontSize: '28px',
+        fontWeight: '600',
+        color: 'var(--foreground)',
+      }}>
+        Chatbot
+      </h1>
       
       <div style={{
         flex: 1,
         overflowY: 'auto',
-        border: '1px solid #ccc',
-        borderRadius: '8px',
-        padding: '16px',
+        border: '1px solid var(--chatbot-border)',
+        borderRadius: '12px',
+        padding: '20px',
         marginBottom: '16px',
-        backgroundColor: 'var(--background)',
+        backgroundColor: 'var(--chatbot-bg)',
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
       }}>
         {messages.length === 0 ? (
-          <p style={{ color: '#666', textAlign: 'center', marginTop: '20px' }}>
+          <p style={{ 
+            color: 'var(--chatbot-placeholder)', 
+            textAlign: 'center', 
+            marginTop: '40px',
+            fontSize: '16px',
+          }}>
             Start a conversation...
           </p>
         ) : (
@@ -105,37 +120,44 @@ const ChatbotPage = () => {
             <div
               key={message.id}
               style={{
-                marginBottom: '12px',
+                marginBottom: '16px',
                 display: 'flex',
                 justifyContent: message.sender === 'user' ? 'flex-end' : 'flex-start',
               }}
             >
               <div
                 style={{
-                  maxWidth: '70%',
-                  padding: '10px 14px',
-                  borderRadius: '12px',
-                  backgroundColor: message.sender === 'user' ? '#0070f3' : '#f0f0f0',
-                  color: message.sender === 'user' ? '#fff' : 'var(--foreground)',
+                  maxWidth: '75%',
+                  padding: '12px 16px',
+                  borderRadius: message.sender === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
+                  backgroundColor: message.sender === 'user' 
+                    ? 'var(--chatbot-user-bubble)' 
+                    : 'var(--chatbot-bot-bubble)',
+                  color: message.sender === 'user' 
+                    ? '#ffffff' 
+                    : 'var(--chatbot-bot-text)',
+                  boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+                  wordBreak: 'break-word',
                 }}
               >
                 {message.sender === 'bot' ? (
                   <MarkdownRenderer content={message.text} />
                 ) : (
-                  message.text
+                  <span style={{ lineHeight: '1.5' }}>{message.text}</span>
                 )}
               </div>
             </div>
           ))
         )}
         {isLoading && (
-          <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '12px' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '16px' }}>
             <div
               style={{
-                padding: '10px 14px',
-                borderRadius: '12px',
-                backgroundColor: '#f0f0f0',
-                color: '#666',
+                padding: '12px 16px',
+                borderRadius: '18px 18px 18px 4px',
+                backgroundColor: 'var(--chatbot-loading-bg)',
+                color: 'var(--chatbot-loading-text)',
+                boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
               }}
             >
               Thinking...
@@ -144,7 +166,7 @@ const ChatbotPage = () => {
         )}
       </div>
 
-      <div style={{ display: 'flex', gap: '8px' }}>
+      <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
         <input
           type="text"
           value={input}
@@ -154,25 +176,53 @@ const ChatbotPage = () => {
           disabled={isLoading}
           style={{
             flex: 1,
-            padding: '12px',
-            border: '1px solid #ccc',
-            borderRadius: '8px',
+            padding: '14px 16px',
+            border: '1px solid var(--chatbot-input-border)',
+            borderRadius: '24px',
             fontSize: '16px',
             outline: 'none',
+            backgroundColor: 'var(--chatbot-input-bg)',
+            color: 'var(--chatbot-input-text)',
+            transition: 'border-color 0.2s, box-shadow 0.2s',
+          }}
+          onFocus={(e) => {
+            e.target.style.borderColor = 'var(--chatbot-user-bubble)';
+            e.target.style.boxShadow = '0 0 0 3px rgba(0, 112, 243, 0.1)';
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = 'var(--chatbot-input-border)';
+            e.target.style.boxShadow = 'none';
           }}
         />
         <button
           onClick={sendMessage}
           disabled={isLoading || !input.trim()}
           style={{
-            padding: '12px 24px',
-            backgroundColor: '#0070f3',
-            color: '#fff',
+            padding: '14px 28px',
+            backgroundColor: isLoading || !input.trim() 
+              ? 'var(--chatbot-button-disabled)' 
+              : 'var(--chatbot-button-bg)',
+            color: '#ffffff',
             border: 'none',
-            borderRadius: '8px',
+            borderRadius: '24px',
             cursor: isLoading || !input.trim() ? 'not-allowed' : 'pointer',
             fontSize: '16px',
-            opacity: isLoading || !input.trim() ? 0.6 : 1,
+            fontWeight: '500',
+            transition: 'background-color 0.2s, transform 0.1s',
+            boxShadow: isLoading || !input.trim() 
+              ? 'none' 
+              : '0 2px 4px rgba(0, 112, 243, 0.3)',
+          }}
+          onMouseDown={(e) => {
+            if (!isLoading && input.trim()) {
+              e.currentTarget.style.transform = 'scale(0.98)';
+            }
+          }}
+          onMouseUp={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
           }}
         >
           Send
