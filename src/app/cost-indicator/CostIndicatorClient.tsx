@@ -182,63 +182,75 @@ export default function CostIndicatorClient({
 
   const regionCapabilities = useMemo(() => {
     const supports3azRegions = new Set(["fr-par", "it-mil"]);
+    const supportsLzRegions = new Set(["fr-mrs", "uk-man"]);
     return {
       supports3az: supports3azRegions.has(region),
+      supportsLz: supportsLzRegions.has(region),
     };
   }, [region]);
 
   const resilienceOptions = useMemo(
     () => [
       { value: "1AZ", label: "1AZ" },
-      { value: "LZ", label: "Local Zone (LZ)" },
+      {
+        value: "LZ",
+        label: "Local Zone (LZ)",
+        disabled: !regionCapabilities.supportsLz,
+      },
       {
         value: "3AZ",
         label: "3AZ (Multi‑zone)",
         disabled: !regionCapabilities.supports3az,
       },
     ],
-    [regionCapabilities.supports3az]
+    [regionCapabilities.supports3az, regionCapabilities.supportsLz]
   );
 
   const regionOptions = useMemo(() => {
     const optionsByLocation: Record<string, { value: string; label: string }[]> =
       {
-        france: [
-          { value: "fr-par", label: "France (Paris)" },
-          { value: "fr-rbx", label: "France (Roubaix)" },
-          { value: "fr-grv", label: "France (Gravelines)" },
-          { value: "fr-sbg", label: "France (Strasbourg)" },
-          { value: "fr-mrs", label: "France (Marseille)" },
-        ],
-        italy: [{ value: "it-mil", label: "Italie (Milan)" }],
         germany: [{ value: "de-fra", label: "Allemagne (Frankfurt)" }],
-        uk: [{ value: "uk-lon", label: "Royaume‑Uni (Londres)" }],
-        spain: [{ value: "es-mad", label: "Espagne (Madrid)" }],
+        australia: [{ value: "au-syd", label: "Australie (Sydney)" }],
+        austria: [{ value: "at-vie", label: "Autriche (Vienna)" }],
+        belgium: [{ value: "be-bru", label: "Belgique (Bruxelles)" }],
+        bulgaria: [{ value: "bg-sof", label: "Bulgarie (Sofia)" }],
         canada: [
           { value: "ca-bhs", label: "Canada (Beauharnois)" },
           { value: "ca-tor", label: "Canada (Toronto)" },
         ],
-        us: [
-          { value: "us-1", label: "États‑Unis (US)" },
+        czechia: [{ value: "cz-prg", label: "République tchèque (Prague)" }],
+        denmark: [{ value: "dk-cph", label: "Danemark (Copenhagen)" }],
+        spain: [{ value: "es-mad", label: "Espagne (Madrid)" }],
+        finland: [{ value: "fi-hel", label: "Finlande (Helsinki)" }],
+        france: [
+          { value: "fr-sbg", label: "France (Strasbourg)" },
+          { value: "fr-grv", label: "France (Gravelines)" },
+          { value: "fr-par", label: "France (Paris)" },
+          { value: "fr-rbx", label: "France (Roubaix)" },
+          { value: "fr-mrs", label: "France (Marseille)" },
         ],
-        singapore: [{ value: "sg-sin", label: "Singapour (Singapour)" }],
+        ireland: [{ value: "ie-dub", label: "Irlande (Dublin)" }],
         india: [{ value: "in-bom", label: "Inde (Mumbai)" }],
+        uk: [
+          { value: "uk-lon", label: "Royaume‑Uni (Londres)" },
+          { value: "uk-man", label: "Royaume‑Uni (Manchester)" },
+        ],
+        italy: [{ value: "it-mil", label: "Italie (Milan)" }],
+        poland: [{ value: "pl-waw", label: "Pologne (Varsovie)" }],
+        luxembourg: [{ value: "lu-lux", label: "Luxembourg (Luxembourg)" }],
+        morocco: [{ value: "ma-rab", label: "Maroc (Rabat)" }],
+        netherlands: [{ value: "nl-ams", label: "Pays‑Bas (Amsterdam)" }],
+        norway: [{ value: "no-osl", label: "Norvège (Oslo)" }],
+        portugal: [{ value: "pt-lis", label: "Portugal (Lisbon)" }],
+        romania: [{ value: "ro-buc", label: "Roumanie (Bucharest)" }],
+        sweden: [{ value: "se-sto", label: "Suède (Stockholm)" }],
+        switzerland: [{ value: "ch-zrh", label: "Suisse (Zurich)" }],
+        singapore: [{ value: "sg-sin", label: "Singapour (Singapour)" }],
+        us: [{ value: "us-1", label: "États‑Unis (US)" }],
       };
 
-    return optionsByLocation[location] ?? [
-      { value: "fr-par", label: "France (Paris)" },
-      { value: "fr-rbx", label: "France (Roubaix)" },
-      { value: "fr-grv", label: "France (Gravelines)" },
-      { value: "fr-sbg", label: "France (Strasbourg)" },
-      { value: "fr-mrs", label: "France (Marseille)" },
-      { value: "it-mil", label: "Italie (Milan)" },
-      { value: "de-fra", label: "Allemagne (Frankfurt)" },
-      { value: "uk-lon", label: "Royaume‑Uni (Londres)" },
-      { value: "ca-bhs", label: "Canada (Beauharnois)" },
-      { value: "ca-tor", label: "Canada (Toronto)" },
-      { value: "sg-sin", label: "Singapour (Singapour)" },
-      { value: "in-bom", label: "Inde (Mumbai)" },
-    ];
+    const fallback = Object.values(optionsByLocation).flat();
+    return optionsByLocation[location] ?? fallback;
   }, [location]);
 
   const instanceProfileGroups = useMemo(() => {
@@ -310,6 +322,8 @@ export default function CostIndicatorClient({
       setDataSovereignty("FR");
     } else if (location === "germany") {
       setDataSovereignty("DE");
+    } else if (location === "switzerland") {
+      setDataSovereignty("CH");
     } else if (location) {
       setDataSovereignty("EU");
     }
@@ -320,7 +334,10 @@ export default function CostIndicatorClient({
     if (resilience === "3AZ" && !regionCapabilities.supports3az) {
       setResilience("1AZ");
     }
-  }, [regionCapabilities.supports3az, resilience]);
+    if (resilience === "LZ" && !regionCapabilities.supportsLz) {
+      setResilience("1AZ");
+    }
+  }, [regionCapabilities.supports3az, regionCapabilities.supportsLz, resilience]);
 
   useEffect(() => {
     if (!savingPlanAuto) return;
@@ -334,6 +351,30 @@ export default function CostIndicatorClient({
     };
     setSavingPlanDiscount(String(defaults[savingPlanDuration] ?? 0));
   }, [savingPlanDuration, savingPlanAuto]);
+
+  useEffect(() => {
+    if (!selectedFamilyGroup || location) return;
+    setLocation("france");
+  }, [selectedFamilyGroup, location]);
+
+  useEffect(() => {
+    if (region || regionOptions.length === 0) return;
+    const preferred =
+      selectedFamilyGroup === "AI"
+        ? "fr-grv"
+        : selectedFamilyGroup === "Network"
+        ? "fr-par"
+        : selectedFamilyGroup === "Storage"
+        ? "fr-par"
+        : selectedFamilyGroup === "Compute"
+        ? "fr-par"
+        : regionOptions[0]?.value;
+    if (preferred && regionOptions.some((opt) => opt.value === preferred)) {
+      setRegion(preferred);
+    } else if (regionOptions[0]?.value) {
+      setRegion(regionOptions[0].value);
+    }
+  }, [region, regionOptions, selectedFamilyGroup]);
 
   const instancePrice = selectedInstanceDetails?.price ?? 0;
   const basePlanHourly = instancePrice;
@@ -464,14 +505,31 @@ export default function CostIndicatorClient({
                       >
                         <option value="">Sélectionner</option>
                         <option value="france">France</option>
-                        <option value="italy">Italie</option>
                         <option value="germany">Allemagne</option>
-                        <option value="uk">Royaume‑Uni</option>
-                        <option value="spain">Espagne</option>
+                        <option value="australia">Australie</option>
+                        <option value="austria">Autriche</option>
+                        <option value="belgium">Belgique</option>
+                        <option value="bulgaria">Bulgarie</option>
                         <option value="canada">Canada</option>
-                        <option value="us">États‑Unis</option>
-                        <option value="singapore">Singapour</option>
+                        <option value="czechia">République tchèque</option>
+                        <option value="denmark">Danemark</option>
+                        <option value="spain">Espagne</option>
+                        <option value="finland">Finlande</option>
+                        <option value="ireland">Irlande</option>
                         <option value="india">Inde</option>
+                        <option value="italy">Italie</option>
+                        <option value="luxembourg">Luxembourg</option>
+                        <option value="morocco">Maroc</option>
+                        <option value="netherlands">Pays‑Bas</option>
+                        <option value="norway">Norvège</option>
+                        <option value="poland">Pologne</option>
+                        <option value="portugal">Portugal</option>
+                        <option value="romania">Roumanie</option>
+                        <option value="uk">Royaume‑Uni</option>
+                        <option value="sweden">Suède</option>
+                        <option value="switzerland">Suisse</option>
+                        <option value="singapore">Singapour</option>
+                        <option value="us">États‑Unis</option>
                       </select>
                     </div>
                     <div className={styles.field}>
@@ -536,7 +594,7 @@ export default function CostIndicatorClient({
                           : "Déploiement standard dans une seule zone (99.9% SLA)."}
                       </span>
                     </div>
-                    {!regionCapabilities.supports3az ? (
+                    {region && !regionCapabilities.supports3az ? (
                       <div className={styles.warningRow}>
                         <span>⚠️ 3AZ</span>
                         <span>
@@ -544,6 +602,14 @@ export default function CostIndicatorClient({
                         </span>
                       </div>
                     ) : null}
+                  {region && !regionCapabilities.supportsLz ? (
+                    <div className={styles.warningRow}>
+                      <span>⚠️ Local Zone</span>
+                      <span>
+                        Local Zone n’est disponible que sur certaines régions (ex: Marseille, Manchester).
+                      </span>
+                    </div>
+                  ) : null}
                   </div>
                 </div>
 
@@ -609,6 +675,7 @@ export default function CostIndicatorClient({
                         <select
                           className={styles.input}
                           value={selectedType}
+                          disabled={!region}
                           onChange={(e) => {
                             const type = e.target.value;
                             setSelectedType(type);
@@ -626,6 +693,11 @@ export default function CostIndicatorClient({
                             </option>
                           ))}
                         </select>
+                        {!region ? (
+                          <span className={styles.hint}>
+                            Sélectionne d’abord une région pour afficher les types.
+                          </span>
+                        ) : null}
                       </div>
                     ) : typeOptions.length ? (
                       <div className={styles.field}>
@@ -633,6 +705,7 @@ export default function CostIndicatorClient({
                         <select
                           className={styles.input}
                           value={selectedType}
+                          disabled={!region}
                           onChange={(e) => setSelectedType(e.target.value)}
                         >
                           <option value="">Sélectionner un type</option>
@@ -642,6 +715,11 @@ export default function CostIndicatorClient({
                             </option>
                           ))}
                         </select>
+                        {!region ? (
+                          <span className={styles.hint}>
+                            Sélectionne d’abord une région pour afficher les types.
+                          </span>
+                        ) : null}
                       </div>
                     ) : null}
                     <div className={styles.field}>
@@ -788,6 +866,12 @@ export default function CostIndicatorClient({
                         Remise auto selon la durée, ajustable si besoin (max 54%).
                       </span>
                     </div>
+                    {resilience === "LZ" ? (
+                      <div className={styles.warningRow}>
+                        <span>⚠️ Savings Plan</span>
+                        <span>Les ressources Local Zone ne sont pas éligibles aux Savings Plans.</span>
+                      </div>
+                    ) : null}
                     <div className={styles.field}>
                       <label className={styles.label}>Tarif IP flottante</label>
                       <div className={styles.inlineValue}>
@@ -890,6 +974,14 @@ export default function CostIndicatorClient({
                         ))}
                       </select>
                     </div>
+                    {["india", "singapore", "australia"].includes(location) ? (
+                      <div className={styles.infoRow}>
+                        <span>ℹ️ Trafic sortant</span>
+                        <span>
+                          Le trafic public sortant peut être facturé en région APAC.
+                        </span>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
 
@@ -949,18 +1041,11 @@ export default function CostIndicatorClient({
                           onChange={(e) => setRemoteBackupRegion(e.target.value)}
                         >
                           <option value="">Sélectionner</option>
-                          <option value="fr-par">France (Paris)</option>
-                          <option value="fr-rbx">France (Roubaix)</option>
-                          <option value="fr-grv">France (Gravelines)</option>
-                          <option value="fr-sbg">France (Strasbourg)</option>
-                          <option value="fr-mrs">France (Marseille)</option>
-                          <option value="it-mil">Italie (Milan)</option>
-                          <option value="de-fra">Allemagne (Frankfurt)</option>
-                          <option value="uk-lon">Royaume‑Uni (Londres)</option>
-                          <option value="ca-bhs">Canada (Beauharnois)</option>
-                          <option value="ca-tor">Canada (Toronto)</option>
-                          <option value="sg-sin">Singapour (Singapour)</option>
-                          <option value="in-bom">Inde (Mumbai)</option>
+                          {regionOptions.map((opt) => (
+                            <option key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </option>
+                          ))}
                         </select>
                       </div>
                     ) : null}
