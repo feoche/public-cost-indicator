@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 
 interface Message {
@@ -14,9 +14,11 @@ const ChatbotPage = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const sendMessage = async () => {
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || isLoading || !conversationId) return;
 
     const userMessage: Message = {
       id: Date.now(),
@@ -25,8 +27,19 @@ const ChatbotPage = () => {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const messageText = input;
     setInput('');
     setIsLoading(true);
+
+    // Create a placeholder bot message that will be updated via streaming
+    const botMessageId = Date.now() + 1;
+    const botMessage: Message = {
+      id: botMessageId,
+      text: '',
+      sender: 'bot',
+    };
+
+    setMessages((prev) => [...prev, botMessage]);
 
     try {
       const response = await fetch(`/api/chatbot/${conversationId}`, {
@@ -34,25 +47,76 @@ const ChatbotPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({ message: messageText }),
       });
 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
 
-      const botMessage: Message = {
-        id: Date.now() + 1,
-        text: data.message,
-        sender: 'bot',
-      };
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
 
-      setMessages((prev) => [...prev, botMessage]);
+      if (!reader) {
+        throw new Error('No response body');
+      }
+
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+              
+              if (data.type === 'content') {
+                setMessages((prev) =>
+                  prev.map((msg) =>
+                    msg.id === botMessageId
+                      ? { ...msg, text: data.content }
+                      : msg
+                  )
+                );
+                // Scroll to bottom after content update
+                setTimeout(() => {
+                  messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+                }, 10);
+              } else if (data.type === 'error') {
+                setMessages((prev) =>
+                  prev.map((msg) =>
+                    msg.id === botMessageId
+                      ? { ...msg, text: data.message || 'Erreur lors du traitement' }
+                      : msg
+                  )
+                );
+                setIsLoading(false);
+                return;
+              } else if (data.type === 'done') {
+                setIsLoading(false);
+                return;
+              }
+            } catch {
+              // Ignore parsing errors for malformed SSE data
+            }
+          }
+        }
+      }
     } catch {
-      const errorMessage: Message = {
-        id: Date.now() + 1,
-        text: 'Error: Failed to send message',
-        sender: 'bot',
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === botMessageId
+            ? { ...msg, text: 'Erreur: Échec de l\'envoi du message' }
+            : msg
+        )
+      );
     } finally {
       setIsLoading(false);
     }
@@ -76,6 +140,20 @@ const ChatbotPage = () => {
     createConversation();
   }, []);
 
+  // Auto-scroll to bottom when messages change or when loading
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      const container = messagesContainerRef.current;
+      const shouldScroll = container.scrollHeight - container.scrollTop <= container.clientHeight + 100;
+      
+      if (shouldScroll) {
+        setTimeout(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }, 50);
+      }
+    }
+  }, [messages, isLoading]);
+
   return (
     <div style={{
       display: 'flex',
@@ -96,16 +174,19 @@ const ChatbotPage = () => {
         Chatbot
       </h1>
       
-      <div style={{
-        flex: 1,
-        overflowY: 'auto',
-        border: '1px solid var(--chatbot-border)',
-        borderRadius: '12px',
-        padding: '20px',
-        marginBottom: '16px',
-        backgroundColor: 'var(--chatbot-bg)',
-        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-      }}>
+      <div 
+        ref={messagesContainerRef}
+        style={{
+          flex: 1,
+          overflowY: 'auto',
+          border: '1px solid var(--chatbot-border)',
+          borderRadius: '12px',
+          padding: '20px',
+          marginBottom: '16px',
+          backgroundColor: 'var(--chatbot-bg)',
+          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+        }}
+      >
         {messages.length === 0 ? (
           <p style={{ 
             color: 'var(--chatbot-placeholder)', 
@@ -116,54 +197,52 @@ const ChatbotPage = () => {
             Start a conversation...
           </p>
         ) : (
-          messages.map((message) => (
-            <div
-              key={message.id}
-              style={{
-                marginBottom: '16px',
-                display: 'flex',
-                justifyContent: message.sender === 'user' ? 'flex-end' : 'flex-start',
-              }}
-            >
+          messages.map((message) => {
+            const isThinking = message.sender === 'bot' && 
+              (message.text === '' || message.text === 'Réfléchit à une solution pour vous...');
+            
+            return (
               <div
+                key={message.id}
                 style={{
-                  maxWidth: '75%',
-                  padding: '12px 16px',
-                  borderRadius: message.sender === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-                  backgroundColor: message.sender === 'user' 
-                    ? 'var(--chatbot-user-bubble)' 
-                    : 'var(--chatbot-bot-bubble)',
-                  color: message.sender === 'user' 
-                    ? '#ffffff' 
-                    : 'var(--chatbot-bot-text)',
-                  boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
-                  wordBreak: 'break-word',
+                  marginBottom: '16px',
+                  display: 'flex',
+                  justifyContent: message.sender === 'user' ? 'flex-end' : 'flex-start',
                 }}
               >
-                {message.sender === 'bot' ? (
-                  <MarkdownRenderer content={message.text} />
-                ) : (
-                  <span style={{ lineHeight: '1.5' }}>{message.text}</span>
-                )}
+                <div
+                  style={{
+                    maxWidth: '75%',
+                    padding: '12px 16px',
+                    borderRadius: message.sender === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
+                    backgroundColor: message.sender === 'user' 
+                      ? 'var(--chatbot-user-bubble)' 
+                      : 'var(--chatbot-bot-bubble)',
+                    color: message.sender === 'user' 
+                      ? '#ffffff' 
+                      : 'var(--chatbot-bot-text)',
+                    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+                    wordBreak: 'break-word',
+                    opacity: isThinking ? 0.7 : 1,
+                    transition: 'opacity 0.3s ease-in-out',
+                  }}
+                >
+                  {message.sender === 'bot' ? (
+                    <div style={{ 
+                      animation: message.text && !isThinking ? 'fadeIn 0.3s ease-out' : 'none',
+                      transition: 'opacity 0.2s ease-in-out',
+                    }}>
+                      <MarkdownRenderer content={message.text || 'Réfléchit à une solution pour vous...'} />
+                    </div>
+                  ) : (
+                    <span style={{ lineHeight: '1.5' }}>{message.text}</span>
+                  )}
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
-        {isLoading && (
-          <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '16px' }}>
-            <div
-              style={{
-                padding: '12px 16px',
-                borderRadius: '18px 18px 18px 4px',
-                backgroundColor: 'var(--chatbot-loading-bg)',
-                color: 'var(--chatbot-loading-text)',
-                boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
-              }}
-            >
-              Thinking...
-            </div>
-          </div>
-        )}
+        <div ref={messagesEndRef} />
       </div>
 
       <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
@@ -183,11 +262,15 @@ const ChatbotPage = () => {
             outline: 'none',
             backgroundColor: 'var(--chatbot-input-bg)',
             color: 'var(--chatbot-input-text)',
-            transition: 'border-color 0.2s, box-shadow 0.2s',
+            transition: 'border-color 0.2s, box-shadow 0.2s, opacity 0.2s',
+            opacity: isLoading ? 0.6 : 1,
+            cursor: isLoading ? 'not-allowed' : 'text',
           }}
           onFocus={(e) => {
-            e.target.style.borderColor = 'var(--chatbot-user-bubble)';
-            e.target.style.boxShadow = '0 0 0 3px rgba(0, 112, 243, 0.1)';
+            if (!isLoading) {
+              e.target.style.borderColor = 'var(--chatbot-user-bubble)';
+              e.target.style.boxShadow = '0 0 0 3px rgba(0, 112, 243, 0.1)';
+            }
           }}
           onBlur={(e) => {
             e.target.style.borderColor = 'var(--chatbot-input-border)';

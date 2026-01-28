@@ -1,59 +1,92 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { createMessage, getMessage, sanitizeMessage } from "./utils";
+
+const DEFAULT_THINKING_MESSAGE = "Réfléchit à une solution pour vous...";
 
 export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
     try {
         const body = await request.json();
-        console.log("Body:", body);
         const message = sanitizeMessage(body.message);
-        console.log("Message:", message);
         const { id: conversationId } = await params;
-        console.log("Conversation ID:", conversationId);
+
         if (!conversationId) {
-            return NextResponse.json(
-                { message: "Conversation ID is required" },
-                { status: 400 }
+            return new Response(
+                JSON.stringify({ error: "Conversation ID is required" }),
+                { status: 400, headers: { "Content-Type": "application/json" } }
             );
         }
 
         const response = await createMessage(conversationId, message);
+        const messageId = response.id;
 
-        console.log(response);
-        let messageResponse = await getMessage(conversationId, response.id);
+        // Create a ReadableStream for Server-Sent Events
+        const stream = new ReadableStream({
+            async start(controller) {
+                const encoder = new TextEncoder();
 
-        while (messageResponse.answers[0].status !== "completed") {
-            if (messageResponse.answers[0].status === "failed") {
-                return NextResponse.json(
-                    { message: "Error processing request" },
-                    { status: 500 }
-                );
-            }
-            await new Promise(resolve => setTimeout(resolve, 300));
-            messageResponse = await getMessage(conversationId, response.id);
-            console.log("Waiting for answer...", messageResponse);
-        }
+                const sendEvent = (data: string) => {
+                    controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+                };
 
-        console.log("Answer received:", messageResponse);
+                let previousContent = "";
+                let messageResponse = await getMessage(conversationId, messageId);
 
-        return NextResponse.json({
-            message: messageResponse.answers[0].content ?? "No answer received"
+                // Poll for updates
+                while (messageResponse.answers[0].status !== "completed") {
+                    if (messageResponse.answers[0].status === "failed") {
+                        sendEvent(JSON.stringify({
+                            type: "error",
+                            message: "Erreur lors du traitement de la requête"
+                        }));
+                        controller.close();
+                        return;
+                    }
+
+                    const currentContent = messageResponse.answers[0].content || "";
+                    const status = messageResponse.answers[0].status;
+
+                    // Send update if content changed or if we need to show default message
+                    if (currentContent !== previousContent || (!currentContent && (status === "todo" || status === "doing"))) {
+                        const displayContent = currentContent ||
+                            (status === "todo" || status === "doing" ? DEFAULT_THINKING_MESSAGE : "");
+
+                        sendEvent(JSON.stringify({
+                            type: "content",
+                            content: displayContent,
+                            status: status
+                        }));
+                        previousContent = currentContent;
+                    }
+
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                    messageResponse = await getMessage(conversationId, messageId);
+                }
+
+                // Send final content
+                const finalContent = messageResponse.answers[0].content || "Aucune réponse reçue";
+                sendEvent(JSON.stringify({
+                    type: "content",
+                    content: finalContent,
+                    status: "completed"
+                }));
+
+                // Send done event
+                sendEvent(JSON.stringify({ type: "done" }));
+                controller.close();
+            },
         });
-    } catch (error) {
-        return NextResponse.json(
-            { message: "Error processing request" },
-            { status: 500 }
+
+        return new Response(stream, {
+            headers: {
+                "Content-Type": "text/event-stream",
+                "Cache-Control": "no-cache",
+                "Connection": "keep-alive",
+            },
+        });
+    } catch {
+        return new Response(
+            JSON.stringify({ error: "Error processing request" }),
+            { status: 500, headers: { "Content-Type": "application/json" } }
         );
     }
 }
-    // TODO: Implement external API call to send message
-    // Example structure:
-    // const response = await fetch(`${BASE_URL}/conversations/${conversationId}/messages`, {
-    //     method: 'POST',
-    //     headers: {
-    //         'Authorization': `Bearer ${API_KEY}`,
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({ message }),
-    // });
-    // const data = await response.json();
-    // return NextResponse.json({ message: data.response });
