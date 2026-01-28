@@ -490,6 +490,346 @@ Parfait pour les bases de données relationnelles, les applications critiques n�
 
 ---
 
+### Object Storage (Standard)
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/storage/object-storage/
+
+**Description:**
+Stockage objet standard avec API S3 pour le stockage de données non structurées, fichiers, backups et archives.
+
+**Recommandation d'usage:**
+Idéal pour le stockage de fichiers statiques, backups, archives, médias, et données nécessitant un accès via API S3.
+
+**Use Cases Client:**
+1. **Containerised applications:** Deploying persistent storage for containerized environments, emphasizing secure, resilient infrastructure supported by triple data replication.
+2. **Critical applications:** High fault tolerance, redundancy, and performance for critical applications like high-transaction analytics and data processing.
+3. **Hosting relational databases:** Relational databases (e.g., MySQL, PostgreSQL) benefit from Block Storage fast performance and direct access to data blocks.
+
+**Types de clients cibles:**
+- Applications nécessitant stockage objet scalable
+- Backups et archives
+- Distribution de contenu statique
+- Applications utilisant API S3
+
+**Flavors Disponibles:**
+
+| Flavor | Spécifications Techniques | Prix |
+|--------|---------------------------|------|
+| storage-replicated | N/A | 0.0000 € / heure ou 0.01 € / mois |
+| bandwidth-storage-in | N/A | Gratuit / heure |
+| bandwidth-storage-out | N/A | Gratuit / heure |
+
+**Détails Techniques par Flavor:**
+
+#### storage-replicated
+- **Plan Codes:** `storage.consumption`, `storage.monthly.postpaid`
+- **Prix:** 0.0000 € / heure, 0.01 € / mois
+- **Spécifications:** Stockage objet standard avec réplication triple
+
+#### bandwidth-storage-in
+- **Plan Codes:** `bandwidth_storage_in.consumption`
+- **Prix:** Gratuit / heure
+- **Spécifications:** Bande passante entrante
+
+#### bandwidth-storage-out
+- **Plan Codes:** `bandwidth_storage.consumption`
+- **Prix:** Gratuit / heure
+- **Spécifications:** Bande passante sortante
+
+---
+
+### Standard Object Storage - S3 API - 3AZ
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/storage/object-storage/
+
+**Description:**
+Stockage objet standard avec API S3 et réplication sur 3 zones de disponibilité pour haute disponibilité.
+
+**Recommandation d'usage:**
+Parfait pour les applications critiques nécessitant une haute disponibilité avec réplication multi-zones.
+
+**Use Cases Client:**
+1. **Containerised applications:** Deploying persistent storage for containerized environments, emphasizing secure, resilient infrastructure supported by triple data replication.
+2. **Critical applications:** High fault tolerance, redundancy, and performance for critical applications like high-transaction analytics and data processing.
+3. **Hosting relational databases:** Relational databases (e.g., MySQL, PostgreSQL) benefit from Block Storage fast performance and direct access to data blocks.
+
+**Types de clients cibles:**
+- Applications critiques nécessitant haute disponibilité
+- Données nécessitant réplication multi-zones
+- Applications utilisant API S3 avec résilience
+
+**Flavors Disponibles:**
+
+| Flavor | Spécifications Techniques | Prix |
+|--------|---------------------------|------|
+| storage-standard-3AZ | N/A | Gratuit / heure |
+| bandwidth_storage-standard-3AZ_in | N/A | Gratuit / heure |
+| bandwidth_storage-standard-3AZ_out | N/A | Gratuit / heure |
+| bandwidth_storage-standard-3AZ_in_internal | N/A | Gratuit / heure |
+| bandwidth_storage-standard-3AZ_out_internal | N/A | Gratuit / heure |
+
+**Détails Techniques par Flavor:**
+
+#### storage-standard-3AZ
+- **Plan Codes:** `storage-standard-3AZ.consumption`
+- **Prix:** Gratuit / heure
+- **Spécifications:** Stockage objet standard avec réplication 3 zones
+
+---
+
+### Standard Object Storage - S3 API
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/storage/object-storage/
+
+**Description:**
+Stockage objet standard avec API S3 pour le stockage de données avec réplication standard.
+
+**Recommandation d'usage:**
+Idéal pour le stockage de fichiers, backups et données nécessitant un accès via API S3.
+
+**Use Cases Client:**
+1. **Containerised applications:** Deploying persistent storage for containerized environments, emphasizing secure, resilient infrastructure supported by triple data replication.
+2. **Critical applications:** High fault tolerance, redundancy, and performance for critical applications like high-transaction analytics and data processing.
+3. **Hosting relational databases:** Relational databases (e.g., MySQL, PostgreSQL) benefit from Block Storage fast performance and direct access to data blocks.
+
+**Types de clients cibles:**
+- Applications nécessitant stockage objet
+- Backups et archives
+- Distribution de contenu
+
+**Flavors Disponibles:**
+
+| Flavor | Spécifications Techniques | Prix |
+|--------|---------------------------|------|
+| storage-replicated | N/A | 0.0000 € / heure ou 0.01 € / mois |
+| bandwidth-instance-in | N/A | Gratuit / heure |
+| bandwidth-instance-out | N/A | Gratuit / heure |
+| bandwidth-internal-vrack-in | N/A | Gratuit / heure |
+| bandwidth-internal-vrack-out | N/A | Gratuit / heure |
+
+**Détails Techniques par Flavor:**
+
+#### storage-replicated
+- **Plan Codes:** `storage-standard.consumption.LZ.AF`, `storage-standard.consumption`, `storage-standard.monthly.postpaid`, `storage-standard.consumption.LZ.EU`, `storage-standard.consumption.LZ`
+- **Prix:** 0.0000 € / heure, 0.01 € / mois
+- **Spécifications:** Stockage objet standard avec réplication
+
+---
+
+### Cold Archive
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/storage/cold-archive/
+
+**Description:**
+Stockage archive à froid pour données rarement consultées, avec coûts de stockage très bas et coûts de restauration.
+
+**Recommandation d'usage:**
+Idéal pour les archives long terme, conformité réglementaire, backups de sauvegarde, données rarement consultées.
+
+**Use Cases Client:**
+1. **Containerised applications:** Deploying persistent storage for containerized environments, emphasizing secure, resilient infrastructure supported by triple data replication.
+2. **Critical applications:** High fault tolerance, redundancy, and performance for critical applications like high-transaction analytics and data processing.
+3. **Hosting relational databases:** Relational databases (e.g., MySQL, PostgreSQL) benefit from Block Storage fast performance and direct access to data blocks.
+
+**Types de clients cibles:**
+- Archives long terme
+- Conformité réglementaire
+- Backups de sauvegarde
+- Données rarement consultées
+
+**Flavors Disponibles:**
+
+| Flavor | Spécifications Techniques | Prix |
+|--------|---------------------------|------|
+| coldarchive.archive.hour | N/A | 0.0000 € / heure |
+| coldarchive.restore.unit | N/A | 0.0049 € / heure |
+
+**Détails Techniques par Flavor:**
+
+#### coldarchive.archive.hour
+- **Plan Codes:** `coldarchive.archive.hour.consumption`
+- **Prix:** 0.0000 € / heure
+- **Spécifications:** Stockage archive à froid
+
+#### coldarchive.restore.unit
+- **Plan Codes:** `coldarchive.restore.unit.consumption`
+- **Prix:** 0.0049 € / heure
+- **Spécifications:** Restauration depuis archive
+
+---
+
+### Infrequent Access Object Storage
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/storage/object-storage/
+
+**Description:**
+Stockage objet pour accès peu fréquent, avec coûts de stockage réduits et coûts de récupération.
+
+**Recommandation d'usage:**
+Parfait pour les données consultées occasionnellement, backups, logs archivés, données de conformité.
+
+**Use Cases Client:**
+1. **Containerised applications:** Deploying persistent storage for containerized environments, emphasizing secure, resilient infrastructure supported by triple data replication.
+2. **Critical applications:** High fault tolerance, redundancy, and performance for critical applications like high-transaction analytics and data processing.
+3. **Hosting relational databases:** Relational databases (e.g., MySQL, PostgreSQL) benefit from Block Storage fast performance and direct access to data blocks.
+
+**Types de clients cibles:**
+- Données consultées occasionnellement
+- Backups et logs archivés
+- Données de conformité
+- Archives avec accès occasionnel
+
+**Flavors Disponibles:**
+
+| Flavor | Spécifications Techniques | Prix |
+|--------|---------------------------|------|
+| storage-standard-ia | N/A | 0.0000 € / heure |
+| retrieval_storage-standard-ia | N/A | 0.0040 € / heure |
+| retrieval_storage-standard-ia-3AZ | N/A | 0.0040 € / heure |
+| bandwidth-instance-in | N/A | Gratuit / heure |
+| bandwidth-instance-out | N/A | Gratuit / heure |
+
+**Détails Techniques par Flavor:**
+
+#### storage-standard-ia
+- **Plan Codes:** `storage-standard-ia-3AZ.consumption`, `storage-standard-ia.consumption`
+- **Prix:** 0.0000 € / heure
+- **Spécifications:** Stockage accès peu fréquent
+
+#### retrieval_storage-standard-ia
+- **Plan Codes:** `retrieval_storage-standard-ia.consumption`
+- **Prix:** 0.0040 € / heure
+- **Spécifications:** Récupération de données
+
+---
+
+### Cold Archive V2
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/storage/cold-archive/
+
+**Description:**
+Stockage archive à froid version 2 pour données très rarement consultées, avec coûts de stockage minimaux.
+
+**Recommandation d'usage:**
+Idéal pour les archives très long terme, conformité réglementaire, backups de sauvegarde ultimes.
+
+**Use Cases Client:**
+1. **Containerised applications:** Deploying persistent storage for containerized environments, emphasizing secure, resilient infrastructure supported by triple data replication.
+2. **Critical applications:** High fault tolerance, redundancy, and performance for critical applications like high-transaction analytics and data processing.
+3. **Hosting relational databases:** Relational databases (e.g., MySQL, PostgreSQL) benefit from Block Storage fast performance and direct access to data blocks.
+
+**Types de clients cibles:**
+- Archives très long terme
+- Conformité réglementaire
+- Backups de sauvegarde ultimes
+
+**Flavors Disponibles:**
+
+| Flavor | Spécifications Techniques | Prix |
+|--------|---------------------------|------|
+| storage-replicated | N/A | 0.0000 € / heure |
+| retrieval_storage-standard-ia-3AZ | N/A | 0.01 € / heure |
+
+**Détails Techniques par Flavor:**
+
+#### storage-replicated
+- **Plan Codes:** `storage-deep-archive-3AZ.consumption`
+- **Prix:** 0.0000 € / heure
+- **Spécifications:** Stockage archive profond
+
+#### retrieval_storage-standard-ia-3AZ
+- **Plan Codes:** `deep-archive-restore-3AZ.consumption`
+- **Prix:** 0.01 € / heure
+- **Spécifications:** Restauration depuis archive profond
+
+---
+
+### Block Storage Volumes
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/storage/block-storage/
+
+**Description:**
+Volumes de stockage bloc attachables aux instances pour stockage persistant avec différentes classes de performance.
+
+**Recommandation d'usage:**
+Parfait pour les bases de données, applications nécessitant stockage persistant, volumes attachables dynamiquement.
+
+**Use Cases Client:**
+1. **Containerised applications:** Deploying persistent storage for containerized environments, emphasizing secure, resilient infrastructure supported by triple data replication.
+2. **Critical applications:** High fault tolerance, redundancy, and performance for critical applications like high-transaction analytics and data processing.
+3. **Hosting relational databases:** Relational databases (e.g., MySQL, PostgreSQL) benefit from Block Storage fast performance and direct access to data blocks.
+
+**Types de clients cibles:**
+- Bases de données nécessitant stockage persistant
+- Applications avec volumes attachables
+- Environnements nécessitant flexibilité de stockage
+
+**Flavors Disponibles:**
+
+| Flavor | Spécifications Techniques | Prix |
+|--------|---------------------------|------|
+| volume.classic | IOPS: 250 | 0.0001 € / heure ou 0.04 € / mois |
+| volume.high-speed | IOPS: 3000 | 0.0002 € / heure ou 0.0001 € / heure ou 0.09 € / mois |
+| volume.high-speed-gen2 | Bande passante: 0.5 Mbit/s, IOPS: 30 | 0.0001 € / heure ou 0.0002 € / heure ou 0.09 € / mois |
+
+**Détails Techniques par Flavor:**
+
+#### volume.classic
+- **Plan Codes:** `volume.classic.consumption.LZ.AF`, `volume.classic.consumption.LZ`, `volume.classic.consumption.LZ.EU`, `volume.classic.consumption`, `volume.classic.monthly.postpaid`, `volume.classic-multiattach.consumption.3AZ`, `volume.classic.consumption.3AZ`
+- **Prix:** 0.0001 € / heure, 0.04 € / mois
+- **Spécifications:**
+  - **IOPS:** 250
+
+#### volume.high-speed
+- **Plan Codes:** `volume.high-speed.consumption.LZ.AF`, `volume.high-speed.consumption.LZ`, `volume.high-speed.consumption`, `volume.high-speed.monthly.postpaid`, `volume.high-speed.consumption.LZ.EU`, `volume.high-speed.consumption.3AZ`
+- **Prix:** 0.0002 € / heure, 0.0001 € / heure, 0.09 € / mois
+- **Spécifications:**
+  - **IOPS:** 3000
+
+#### volume.high-speed-gen2
+- **Plan Codes:** `volume.high-speed-gen2.consumption.3AZ`, `volume.high-speed-gen2.consumption.LZ.AF`, `volume.high-speed-gen2.consumption.LZ.EU`, `volume.high-speed-gen2.consumption.LZ`, `volume.high-speed-gen2.consumption`, `volume.high-speed-gen2.monthly.postpaid`
+- **Prix:** 0.0001 € / heure, 0.0002 € / heure, 0.09 € / mois
+- **Spécifications:**
+  - **Bande passante:** 0.5 Mbit/s
+  - **IOPS:** 30
+
+---
+
+### Volume Snapshots
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/storage/block-storage/
+
+**Description:**
+Snapshots de volumes pour sauvegardes instantanées et restauration de volumes de stockage bloc.
+
+**Recommandation d'usage:**
+Idéal pour les sauvegardes de volumes, points de restauration, copies de volumes pour tests.
+
+**Use Cases Client:**
+1. **Containerised applications:** Deploying persistent storage for containerized environments, emphasizing secure, resilient infrastructure supported by triple data replication.
+2. **Critical applications:** High fault tolerance, redundancy, and performance for critical applications like high-transaction analytics and data processing.
+3. **Hosting relational databases:** Relational databases (e.g., MySQL, PostgreSQL) benefit from Block Storage fast performance and direct access to data blocks.
+
+**Types de clients cibles:**
+- Sauvegardes de volumes
+- Points de restauration
+- Copies de volumes pour tests
+
+**Flavors Disponibles:**
+
+| Flavor | Spécifications Techniques | Prix |
+|--------|---------------------------|------|
+| volume.snapshot | N/A | 0.0001 € / heure ou 0.04 € / mois |
+
+**Détails Techniques par Flavor:**
+
+#### volume.snapshot
+- **Plan Codes:** `volume.snapshot.consumption`, `volume.snapshot.monthly.postpaid`, `volume.snapshot.consumption.LZ.AF`, `volume.snapshot.consumption.LZ.EU`, `volume.snapshot.consumption.LZ`, `volume.snapshot.consumption.3AZ`
+- **Prix:** 0.0001 € / heure, 0.04 € / mois
+- **Spécifications:** Snapshot de volume de stockage bloc
+
+---
+
 ## Database
 
 ### Managed Databases - MySQL
@@ -1411,6 +1751,514 @@ Idéal pour la recherche full-text, l'analyse de logs, la visualisation de donn�
 
 ---
 
+### Managed Databases - Grafana Essential
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/databases/grafana/
+
+**Description:**
+Plateforme de visualisation et monitoring Grafana managée pour visualiser et analyser les métriques et logs.
+
+**Recommandation d'usage:**
+Idéal pour le monitoring d'infrastructure, visualisation de métriques, dashboards personnalisés, alerting.
+
+**Use Cases Client:**
+1. **Managing High Volumes of Structured Data:** SQL engines provide high-performance, reliable transactional data storage with ACID compliance, ensuring data integrity for all transactions.
+2. **Multimedia data organization & analysis:** When it is crucial to organize multiple types of data and deliver it fast to end users in a personalized way, NoSQL engines will provide higher performance and scalability.
+3. **Managing Real-Time Data and Caching:** In-memory databases (IMDBs) offer ultra-fast data access by storing data directly in RAM instead of traditional disk-based storage. This architecture enables low-latency real-time processing and immediate data retrieval.
+
+**Types de clients cibles:**
+- Monitoring d'infrastructure
+- Visualisation de métriques
+- Dashboards personnalisés
+- Alerting et notifications
+
+**Flavors Disponibles:**
+
+| Flavor | vCPU | RAM | Bande passante | Prix |
+|--------|------|-----|----------------|------|
+| Essential DB1-4 | 2 | 4 Go | 250 Mbit/s | 0.06 € / heure |
+| Essential DB1-7 | 2 | 7 Go | 250 Mbit/s | 0.12 € / heure |
+
+---
+
+### Managed Databases - Grafana Business
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/databases/grafana/
+
+**Description:**
+Plateforme de visualisation et monitoring Grafana Business managée avec fonctionnalités avancées.
+
+**Recommandation d'usage:**
+Parfait pour les environnements de production nécessitant monitoring avancé, alerting, et haute disponibilité.
+
+**Use Cases Client:**
+1. **Managing High Volumes of Structured Data:** SQL engines provide high-performance, reliable transactional data storage with ACID compliance, ensuring data integrity for all transactions.
+2. **Multimedia data organization & analysis:** When it is crucial to organize multiple types of data and deliver it fast to end users in a personalized way, NoSQL engines will provide higher performance and scalability.
+3. **Managing Real-Time Data and Caching:** In-memory databases (IMDBs) offer ultra-fast data access by storing data directly in RAM instead of traditional disk-based storage. This architecture enables low-latency real-time processing and immediate data retrieval.
+
+**Types de clients cibles:**
+- Environnements de production
+- Monitoring avancé
+- Alerting et notifications
+- Haute disponibilité
+
+**Flavors Disponibles:**
+
+| Flavor | vCPU | RAM | Bande passante | Prix |
+|--------|------|-----|----------------|------|
+| Production B3-8 | 2 | 8 Go | 500 Mbit/s | 0.13 € / heure ou 0.12 € / heure |
+
+---
+
+### Managed Databases - Kafka Connect Business
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/databases/kafka/
+
+**Description:**
+Kafka Connect Business managé pour connecter Kafka à des systèmes externes et intégrer des données.
+
+**Recommandation d'usage:**
+Idéal pour l'intégration de données, connecteurs vers bases de données, systèmes de fichiers, et autres sources de données.
+
+**Use Cases Client:**
+1. **Managing High Volumes of Structured Data:** SQL engines provide high-performance, reliable transactional data storage with ACID compliance, ensuring data integrity for all transactions.
+2. **Multimedia data organization & analysis:** When it is crucial to organize multiple types of data and deliver it fast to end users in a personalized way, NoSQL engines will provide higher performance and scalability.
+3. **Managing Real-Time Data and Caching:** In-memory databases (IMDBs) offer ultra-fast data access by storing data directly in RAM instead of traditional disk-based storage. This architecture enables low-latency real-time processing and immediate data retrieval.
+
+**Types de clients cibles:**
+- Intégration de données
+- Connecteurs vers bases de données
+- Systèmes de fichiers
+- Sources de données externes
+
+**Flavors Disponibles:**
+
+| Flavor | vCPU | RAM | Bande passante | Prix |
+|--------|------|-----|----------------|------|
+| Business DB1-7 | 2 | 7 Go | 250 Mbit/s | 0.21 € / heure |
+| Business DB1-15 | 4 | 15 Go | 250 Mbit/s | 0.41 € / heure ou 0.40 € / heure |
+| Business DB1-30 | 8 | 30 Go | 500 Mbit/s | 0.72 € / heure ou 0.71 € / heure |
+| Production B3-8 | 2 | 8 Go | 500 Mbit/s | 0.20 € / heure ou 0.19 € / heure |
+| Production B3-16 | 4 | 16 Go | 1000 Mbit/s | 0.41 € / heure ou 0.39 € / heure |
+| Production B3-32 | 8 | 32 Go | 2000 Mbit/s | 0.74 € / heure ou 0.70 € / heure |
+
+---
+
+### Managed Databases - Kafka Connect Enterprise
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/databases/kafka/
+
+**Description:**
+Kafka Connect Enterprise managé avec fonctionnalités avancées pour intégration de données entreprise.
+
+**Recommandation d'usage:**
+Parfait pour les environnements entreprise nécessitant intégration de données avancée et haute disponibilité.
+
+**Use Cases Client:**
+1. **Managing High Volumes of Structured Data:** SQL engines provide high-performance, reliable transactional data storage with ACID compliance, ensuring data integrity for all transactions.
+2. **Multimedia data organization & analysis:** When it is crucial to organize multiple types of data and deliver it fast to end users in a personalized way, NoSQL engines will provide higher performance and scalability.
+3. **Managing Real-Time Data and Caching:** In-memory databases (IMDBs) offer ultra-fast data access by storing data directly in RAM instead of traditional disk-based storage. This architecture enables low-latency real-time processing and immediate data retrieval.
+
+**Types de clients cibles:**
+- Environnements entreprise
+- Intégration de données avancée
+- Haute disponibilité
+- Connecteurs avancés
+
+**Flavors Disponibles:**
+
+| Flavor | vCPU | RAM | Bande passante | Prix |
+|--------|------|-----|----------------|------|
+| Enterprise DB1-7 | 2 | 7 Go | 250 Mbit/s | 0.21 € / heure |
+| Enterprise DB1-15 | 4 | 15 Go | 250 Mbit/s | 0.41 € / heure ou 0.40 € / heure |
+| Enterprise DB1-30 | 8 | 30 Go | 500 Mbit/s | 0.72 € / heure ou 0.71 € / heure |
+| Advanced B3-8 | 2 | 8 Go | 500 Mbit/s | 0.20 € / heure ou 0.19 € / heure |
+| Advanced B3-16 | 4 | 16 Go | 1000 Mbit/s | 0.41 € / heure ou 0.39 € / heure |
+| Advanced B3-32 | 8 | 32 Go | 2000 Mbit/s | 0.74 € / heure ou 0.70 € / heure |
+
+---
+
+### Managed Databases - Kafka Connect Essential
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/databases/kafka/
+
+**Description:**
+Kafka Connect Essential managé pour intégration de données avec fonctionnalités de base.
+
+**Recommandation d'usage:**
+Idéal pour les environnements de développement et tests nécessitant intégration de données basique.
+
+**Use Cases Client:**
+1. **Managing High Volumes of Structured Data:** SQL engines provide high-performance, reliable transactional data storage with ACID compliance, ensuring data integrity for all transactions.
+2. **Multimedia data organization & analysis:** When it is crucial to organize multiple types of data and deliver it fast to end users in a personalized way, NoSQL engines will provide higher performance and scalability.
+3. **Managing Real-Time Data and Caching:** In-memory databases (IMDBs) offer ultra-fast data access by storing data directly in RAM instead of traditional disk-based storage. This architecture enables low-latency real-time processing and immediate data retrieval.
+
+**Types de clients cibles:**
+- Environnements de développement
+- Tests et intégration
+- Connecteurs de base
+
+**Flavors Disponibles:**
+
+| Flavor | vCPU | RAM | Bande passante | Prix |
+|--------|------|-----|----------------|------|
+| Essential DB1-4 | 2 | 4 Go | 250 Mbit/s | 0.11 € / heure ou 0.10 € / heure |
+| Essential DB1-7 | 2 | 7 Go | 250 Mbit/s | 0.21 € / heure |
+| Essential DB1-15 | 4 | 15 Go | 250 Mbit/s | 0.40 € / heure ou 0.39 € / heure |
+| Essential DB1-30 | 8 | 30 Go | 500 Mbit/s | 0.72 € / heure ou 0.71 € / heure |
+
+---
+
+### Managed Databases - Kafka MirrorMaker Business
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/databases/kafka/
+
+**Description:**
+Kafka MirrorMaker Business managé pour répliquer des données Kafka entre clusters et régions.
+
+**Recommandation d'usage:**
+Idéal pour la réplication de données Kafka, backup de clusters, et synchronisation multi-régions.
+
+**Use Cases Client:**
+1. **Managing High Volumes of Structured Data:** SQL engines provide high-performance, reliable transactional data storage with ACID compliance, ensuring data integrity for all transactions.
+2. **Multimedia data organization & analysis:** When it is crucial to organize multiple types of data and deliver it fast to end users in a personalized way, NoSQL engines will provide higher performance and scalability.
+3. **Managing Real-Time Data and Caching:** In-memory databases (IMDBs) offer ultra-fast data access by storing data directly in RAM instead of traditional disk-based storage. This architecture enables low-latency real-time processing and immediate data retrieval.
+
+**Types de clients cibles:**
+- Réplication de données Kafka
+- Backup de clusters
+- Synchronisation multi-régions
+- Disaster recovery
+
+**Flavors Disponibles:**
+
+| Flavor | vCPU | RAM | Bande passante | Prix |
+|--------|------|-----|----------------|------|
+| Business DB1-4 | 2 | 4 Go | 250 Mbit/s | 0.11 € / heure |
+| Business DB1-7 | 2 | 7 Go | 250 Mbit/s | 0.21 € / heure |
+| Business DB1-15 | 4 | 15 Go | 250 Mbit/s | 0.41 € / heure ou 0.40 € / heure |
+| Business DB1-30 | 8 | 30 Go | 500 Mbit/s | 0.72 € / heure ou 0.71 € / heure |
+| Production B3-8 | 2 | 8 Go | 500 Mbit/s | 0.20 € / heure ou 0.19 € / heure |
+| Production B3-16 | 4 | 16 Go | 1000 Mbit/s | 0.41 € / heure ou 0.39 € / heure |
+| Production B3-32 | 8 | 32 Go | 2000 Mbit/s | 0.74 € / heure ou 0.70 € / heure |
+
+---
+
+### Managed Databases - Kafka MirrorMaker Enterprise
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/databases/kafka/
+
+**Description:**
+Kafka MirrorMaker Enterprise managé avec fonctionnalités avancées pour réplication entreprise.
+
+**Recommandation d'usage:**
+Parfait pour les environnements entreprise nécessitant réplication avancée et haute disponibilité.
+
+**Use Cases Client:**
+1. **Managing High Volumes of Structured Data:** SQL engines provide high-performance, reliable transactional data storage with ACID compliance, ensuring data integrity for all transactions.
+2. **Multimedia data organization & analysis:** When it is crucial to organize multiple types of data and deliver it fast to end users in a personalized way, NoSQL engines will provide higher performance and scalability.
+3. **Managing Real-Time Data and Caching:** In-memory databases (IMDBs) offer ultra-fast data access by storing data directly in RAM instead of traditional disk-based storage. This architecture enables low-latency real-time processing and immediate data retrieval.
+
+**Types de clients cibles:**
+- Environnements entreprise
+- Réplication avancée
+- Haute disponibilité
+- Disaster recovery avancé
+
+**Flavors Disponibles:**
+
+| Flavor | vCPU | RAM | Bande passante | Prix |
+|--------|------|-----|----------------|------|
+| Enterprise DB1-7 | 2 | 7 Go | 250 Mbit/s | 0.21 € / heure |
+| Enterprise DB1-15 | 4 | 15 Go | 250 Mbit/s | 0.41 € / heure ou 0.40 € / heure |
+| Enterprise DB1-30 | 8 | 30 Go | 500 Mbit/s | 0.72 € / heure ou 0.71 € / heure |
+| Advanced B3-8 | 2 | 8 Go | 500 Mbit/s | 0.20 € / heure ou 0.19 € / heure |
+| Advanced B3-16 | 4 | 16 Go | 1000 Mbit/s | 0.41 € / heure ou 0.39 € / heure |
+| Advanced B3-32 | 8 | 32 Go | 2000 Mbit/s | 0.74 € / heure ou 0.70 € / heure |
+
+---
+
+### Managed Databases - Kafka MirrorMaker Essential
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/databases/kafka/
+
+**Description:**
+Kafka MirrorMaker Essential managé pour réplication de base entre clusters Kafka.
+
+**Recommandation d'usage:**
+Idéal pour les environnements de développement et tests nécessitant réplication basique.
+
+**Use Cases Client:**
+1. **Managing High Volumes of Structured Data:** SQL engines provide high-performance, reliable transactional data storage with ACID compliance, ensuring data integrity for all transactions.
+2. **Multimedia data organization & analysis:** When it is crucial to organize multiple types of data and deliver it fast to end users in a personalized way, NoSQL engines will provide higher performance and scalability.
+3. **Managing Real-Time Data and Caching:** In-memory databases (IMDBs) offer ultra-fast data access by storing data directly in RAM instead of traditional disk-based storage. This architecture enables low-latency real-time processing and immediate data retrieval.
+
+**Types de clients cibles:**
+- Environnements de développement
+- Tests et réplication basique
+
+**Flavors Disponibles:**
+
+| Flavor | vCPU | RAM | Bande passante | Prix |
+|--------|------|-----|----------------|------|
+| Essential DB1-4 | 2 | 4 Go | 250 Mbit/s | 0.11 € / heure ou 0.10 € / heure |
+| Essential DB1-7 | 2 | 7 Go | 250 Mbit/s | 0.21 € / heure |
+| Essential DB1-15 | 4 | 15 Go | 250 Mbit/s | 0.40 € / heure ou 0.39 € / heure |
+| Essential DB1-30 | 8 | 30 Go | 500 Mbit/s | 0.72 € / heure ou 0.71 € / heure |
+
+---
+
+### Managed Databases - MongoDB Discovery
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/databases/mongodb/
+
+**Description:**
+MongoDB Discovery managé gratuit pour découvrir et tester MongoDB sans engagement.
+
+**Recommandation d'usage:**
+Parfait pour découvrir MongoDB, tests, développement, et projets de démonstration.
+
+**Use Cases Client:**
+1. **Managing High Volumes of Structured Data:** SQL engines provide high-performance, reliable transactional data storage with ACID compliance, ensuring data integrity for all transactions.
+2. **Multimedia data organization & analysis:** When it is crucial to organize multiple types of data and deliver it fast to end users in a personalized way, NoSQL engines will provide higher performance and scalability.
+3. **Managing Real-Time Data and Caching:** In-memory databases (IMDBs) offer ultra-fast data access by storing data directly in RAM instead of traditional disk-based storage. This architecture enables low-latency real-time processing and immediate data retrieval.
+
+**Types de clients cibles:**
+- Découverte de MongoDB
+- Tests et développement
+- Projets de démonstration
+- Apprentissage
+
+**Flavors Disponibles:**
+
+| Flavor | Stockage | Prix |
+|--------|----------|------|
+| Discovery DB2-FREE | 0.5 GiB | Gratuit / heure |
+
+---
+
+### Managed Databases - MongoDB Enterprise
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/databases/mongodb/
+
+**Description:**
+MongoDB Enterprise managé avec fonctionnalités avancées pour environnements entreprise.
+
+**Recommandation d'usage:**
+Idéal pour les environnements de production entreprise nécessitant haute disponibilité, sécurité avancée, et support.
+
+**Use Cases Client:**
+1. **Managing High Volumes of Structured Data:** SQL engines provide high-performance, reliable transactional data storage with ACID compliance, ensuring data integrity for all transactions.
+2. **Multimedia data organization & analysis:** When it is crucial to organize multiple types of data and deliver it fast to end users in a personalized way, NoSQL engines will provide higher performance and scalability.
+3. **Managing Real-Time Data and Caching:** In-memory databases (IMDBs) offer ultra-fast data access by storing data directly in RAM instead of traditional disk-based storage. This architecture enables low-latency real-time processing and immediate data retrieval.
+
+**Types de clients cibles:**
+- Environnements de production entreprise
+- Haute disponibilité
+- Sécurité avancée
+- Support entreprise
+
+**Flavors Disponibles:**
+
+| Flavor | vCPU | RAM | Stockage | Bande passante | Prix |
+|--------|------|-----|----------|----------------|------|
+| Enterprise DB1-15 | 4 | 15 Go | 320 GiB | 250 Mbit/s | 0.81 € / heure |
+| Enterprise DB1-30 | 8 | 30 Go | 640 GiB | 500 Mbit/s | 1.64 € / heure |
+| Enterprise DB1-60 | 16 | 60 Go | 1280 GiB | 1000 Mbit/s | 3.27 € / heure |
+| Enterprise DB1-120 | 32 | 120 Go | 2560 GiB | 10000 Mbit/s | 6.54 € / heure |
+
+---
+
+### Managed Databases - MongoDB Essential
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/databases/mongodb/
+
+**Description:**
+MongoDB Essential managé pour environnements de développement et tests avec fonctionnalités de base.
+
+**Recommandation d'usage:**
+Parfait pour le développement, tests, et environnements non-critiques nécessitant MongoDB.
+
+**Use Cases Client:**
+1. **Managing High Volumes of Structured Data:** SQL engines provide high-performance, reliable transactional data storage with ACID compliance, ensuring data integrity for all transactions.
+2. **Multimedia data organization & analysis:** When it is crucial to organize multiple types of data and deliver it fast to end users in a personalized way, NoSQL engines will provide higher performance and scalability.
+3. **Managing Real-Time Data and Caching:** In-memory databases (IMDBs) offer ultra-fast data access by storing data directly in RAM instead of traditional disk-based storage. This architecture enables low-latency real-time processing and immediate data retrieval.
+
+**Types de clients cibles:**
+- Développement et tests
+- Environnements non-critiques
+- Projets de démonstration
+
+**Flavors Disponibles:**
+
+| Flavor | vCPU | RAM | Stockage | Bande passante | Prix |
+|--------|------|-----|----------|----------------|------|
+| Essential DB1-2 | 1 | 2 Go | 40 GiB | 100 Mbit/s | 0.03 € / heure |
+| Essential DB1-4 | 2 | 4 Go | 80 GiB | 250 Mbit/s | 0.06 € / heure |
+| Essential DB1-7 | 2 | 7 Go | 160 GiB | 250 Mbit/s | 0.11 € / heure |
+| Essential DB1-15 | 4 | 15 Go | 320 GiB | 250 Mbit/s | 0.23 € / heure |
+| Essential DB1-30 | 8 | 30 Go | 640 GiB | 500 Mbit/s | 0.45 € / heure |
+| Essential DB1-60 | 16 | 60 Go | 1280 GiB | 1000 Mbit/s | 0.90 € / heure |
+| Essential DB1-120 | 32 | 120 Go | 2560 GiB | 10000 Mbit/s | 1.81 € / heure |
+
+---
+
+### Managed Databases - MongoDB Advanced
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/databases/mongodb/
+
+**Description:**
+MongoDB Advanced managé avec fonctionnalités avancées pour environnements de production.
+
+**Recommandation d'usage:**
+Idéal pour les environnements de production nécessitant performances élevées et fonctionnalités avancées.
+
+**Use Cases Client:**
+1. **Managing High Volumes of Structured Data:** SQL engines provide high-performance, reliable transactional data storage with ACID compliance, ensuring data integrity for all transactions.
+2. **Multimedia data organization & analysis:** When it is crucial to organize multiple types of data and deliver it fast to end users in a personalized way, NoSQL engines will provide higher performance and scalability.
+3. **Managing Real-Time Data and Caching:** In-memory databases (IMDBs) offer ultra-fast data access by storing data directly in RAM instead of traditional disk-based storage. This architecture enables low-latency real-time processing and immediate data retrieval.
+
+**Types de clients cibles:**
+- Environnements de production
+- Performances élevées
+- Fonctionnalités avancées
+- Scaling automatique
+
+**Flavors Disponibles:**
+
+| Flavor | vCPU | RAM | Stockage | Bande passante | Prix |
+|--------|------|-----|----------|----------------|------|
+| Advanced DB2-15 | 4 | 15 Go | 80 GiB | 250 Mbit/s | 0.72 € / heure ou 0.71 € / heure |
+| Advanced DB2-30 | 8 | 30 Go | 160 GiB | 500 Mbit/s | 1.44 € / heure ou 1.42 € / heure |
+| Advanced DB2-60 | 16 | 60 Go | 320 GiB | 1000 Mbit/s | 2.87 € / heure ou 2.83 € / heure |
+| Advanced DB2-120 | 32 | 120 Go | 640 GiB | 10000 Mbit/s | 5.73 € / heure ou 5.67 € / heure |
+| Advanced B3-16 | 4 | 16 Go | 80 GiB | 1000 Mbit/s | 0.24 € / heure ou 0.22 € / heure |
+| Advanced B3-32 | 8 | 32 Go | 160 GiB | 2000 Mbit/s | 0.46 € / heure ou 0.43 € / heure |
+| Advanced B3-64 | 16 | 64 Go | 320 GiB | 4000 Mbit/s | 0.92 € / heure ou 0.86 € / heure |
+| Advanced B3-128 | 32 | 128 Go | 640 GiB | 8000 Mbit/s | 1.85 € / heure ou 1.74 € / heure |
+| Advanced B3-256 | 64 | 256 Go | 1280 GiB | 16000 Mbit/s | 3.70 € / heure ou 3.48 € / heure |
+
+---
+
+### Managed Databases - MongoDB Production
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/databases/mongodb/
+
+**Description:**
+MongoDB Production managé avec haute disponibilité et réplication pour environnements de production critiques.
+
+**Recommandation d'usage:**
+Parfait pour les environnements de production critiques nécessitant haute disponibilité, réplication, et performances optimales.
+
+**Use Cases Client:**
+1. **Managing High Volumes of Structured Data:** SQL engines provide high-performance, reliable transactional data storage with ACID compliance, ensuring data integrity for all transactions.
+2. **Multimedia data organization & analysis:** When it is crucial to organize multiple types of data and deliver it fast to end users in a personalized way, NoSQL engines will provide higher performance and scalability.
+3. **Managing Real-Time Data and Caching:** In-memory databases (IMDBs) offer ultra-fast data access by storing data directly in RAM instead of traditional disk-based storage. This architecture enables low-latency real-time processing and immediate data retrieval.
+
+**Types de clients cibles:**
+- Environnements de production critiques
+- Haute disponibilité
+- Réplication automatique
+- Performances optimales
+
+**Flavors Disponibles:**
+
+| Flavor | vCPU | RAM | Stockage | Bande passante | Prix |
+|--------|------|-----|----------|----------------|------|
+| Production DB2-2 | 1 | 2 Go | 10 GiB | 100 Mbit/s | 0.03 € / heure ou 0.02 € / heure |
+| Production DB2-4 | 2 | 4 Go | 20 GiB | 250 Mbit/s | 0.05 € / heure |
+| Production DB2-7 | 2 | 7 Go | 40 GiB | 250 Mbit/s | 0.12 € / heure |
+| Production DB2-15 | 4 | 15 Go | 80 GiB | 250 Mbit/s | 0.24 € / heure ou 0.23 € / heure |
+| Production DB2-30 | 8 | 30 Go | 160 GiB | 500 Mbit/s | 0.47 € / heure ou 0.46 € / heure |
+| Production DB2-60 | 16 | 60 Go | 320 GiB | 1000 Mbit/s | 0.93 € / heure ou 0.91 € / heure |
+| Production B3-8 | 2 | 8 Go | 40 GiB | 500 Mbit/s | 0.12 € / heure ou 0.11 € / heure |
+| Production B3-16 | 4 | 16 Go | 80 GiB | 1000 Mbit/s | 0.23 € / heure ou 0.22 € / heure |
+| Production B3-32 | 8 | 32 Go | 160 GiB | 2000 Mbit/s | 0.46 € / heure ou 0.43 € / heure |
+| Production B3-64 | 16 | 64 Go | 320 GiB | 4000 Mbit/s | 0.91 € / heure ou 0.86 € / heure |
+| Production B3-128 | 32 | 128 Go | 640 GiB | 8000 Mbit/s | 1.84 € / heure ou 1.73 € / heure |
+| Production B3-256 | 64 | 256 Go | 1280 GiB | 16000 Mbit/s | 3.67 € / heure ou 3.47 € / heure |
+
+---
+
+## Network
+
+### Network Bandwidth
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/network/
+
+**Description:**
+Bande passante réseau publique pour les instances, permettant la communication avec Internet.
+
+**Recommandation d'usage:**
+Nécessaire pour toutes les instances nécessitant un accès Internet public.
+
+**Use Cases Client:**
+1. **Public network bandwidth for instances**
+
+**Types de clients cibles:**
+- Toutes les instances avec accès Internet
+- Applications nécessitant communication publique
+
+**Flavors Disponibles:**
+
+| Flavor | Spécifications Techniques | Prix |
+|--------|---------------------------|------|
+| bandwidth-instance-in | N/A | Gratuit / heure |
+| bandwidth-instance-out | N/A | Gratuit / heure |
+
+**Détails Techniques par Flavor:**
+
+#### bandwidth-instance-in
+- **Plan Codes:** `bandwidth_instance_in.consumption`, `bandwidth_instance_in.consumption.3AZ`
+- **Prix:** Gratuit / heure
+- **Spécifications:** Bande passante entrante depuis Internet
+
+#### bandwidth-instance-out
+- **Plan Codes:** `bandwidth_instance_out.consumption`, `bandwidth_instance_out.consumption.3AZ`, `bandwidth_instance_out.consumption.SGP1`, `bandwidth_instance_out.consumption.SYD1`
+- **Prix:** Gratuit / heure
+- **Spécifications:** Bande passante sortante vers Internet
+
+---
+
+### Private Network Bandwidth
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/network/
+
+**Description:**
+Bande passante réseau privée pour les instances dans vRack, permettant la communication privée entre instances.
+
+**Recommandation d'usage:**
+Idéal pour la communication privée entre instances, réseaux isolés, architectures multi-tiers.
+
+**Use Cases Client:**
+1. **Private network bandwidth for instances in vRack**
+
+**Types de clients cibles:**
+- Instances dans vRack
+- Communication privée entre instances
+- Architectures multi-tiers isolées
+
+**Flavors Disponibles:**
+
+| Flavor | Spécifications Techniques | Prix |
+|--------|---------------------------|------|
+| bandwidth-instance-vrack-in | N/A | Gratuit / heure |
+| bandwidth-instance-vrack-out | N/A | Gratuit / heure |
+
+**Détails Techniques par Flavor:**
+
+#### bandwidth-instance-vrack-in
+- **Plan Codes:** `bandwidth_instance_vrack_in.consumption`, `bandwidth_instance_vrack_in.consumption.3AZ`
+- **Prix:** Gratuit / heure
+- **Spécifications:** Bande passante entrante depuis vRack
+
+#### bandwidth-instance-vrack-out
+- **Plan Codes:** `bandwidth_instance_vrack_out.consumption`, `bandwidth_instance_vrack_out.consumption.3AZ`
+- **Prix:** Gratuit / heure
+- **Spécifications:** Bande passante sortante vers vRack
+
+---
+
 ## AI
 
 ### AI Training
@@ -1518,6 +2366,222 @@ Idéal pour l'exploration de données, la visualisation, le prototypage de modè
 | ai1-1-CPU | 1 | 4 Go | N/A | N/A | 500 Mbit/s | 0.0006 € / heure |
 
 **Note:** Les détails techniques complets pour chaque flavor AI Notebooks sont disponibles dans le catalogue complet.
+
+---
+
+### AI GPU Deploy
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/ai-deploy/
+
+**Description:**
+Service de déploiement d'applications IA avec GPU pour l'inférence en production avec modèles GPU.
+
+**Recommandation d'usage:**
+Idéal pour le déploiement de modèles d'IA en production, l'inférence GPU, les APIs d'IA entreprise, et l'automatisation opérationnelle.
+
+**Use Cases Client:**
+1. **AI Notebooks:** Data exploration, analysis and visualisation. Model Prototyping and Experimentation. AI Proof of Concept.
+2. **AI Training:** Large scale Model Training. Model Fine-Tuning and Optimization. AI Research and Experimentation.
+3. **AI Deploy:** Application AI Inference. Enterprise AI APIs. Operational Automation.
+4. **AI Endpoints:** AI-Enhanced Applications. Predictable, High Throughput Services. Bulk AI Workloads.
+
+**Types de clients cibles:**
+- Applications d'inférence IA en production
+- APIs d'IA entreprise
+- Automatisation opérationnelle
+- Services d'IA haute performance
+
+**Flavors Disponibles:**
+
+| Flavor | vCPU | RAM | GPU | VRAM | Bande passante | Prix |
+|--------|------|-----|-----|------|----------------|------|
+| a10-1-gpu | 28 | 40 Go | NVIDIA Ampere A10 x1 | 24 Go | 5000 Mbit/s | 0.02 € / heure |
+| a100-1-gpu | 13 | 160 Go | NVIDIA Ampere A100 x1 | 80 Go | 1500 Mbit/s | 0.05 € / heure |
+| h100-1-gpu | 28 | 350 Go | NVIDIA Hopper H100 x1 | 80 Go | 5000 Mbit/s | 0.05 € / heure |
+| l4-1-gpu | 20 | 80 Go | NVIDIA Ada Lovelace L4 x1 | 24 Go | 5000 Mbit/s | 0.01 € / heure |
+| l40s-1-gpu | 13 | 80 Go | NVIDIA Ada Lovelace L40S x1 | 48 Go | 5000 Mbit/s | 0.03 € / heure |
+| ai1-1-GPU | 13 | 40 Go | NVIDIA Tesla V100S x1 | 32 Go | 1500 Mbit/s | 0.03 € / heure |
+| ai1-le-1-GPU | 13 | 40 Go | NVIDIA Tesla V100S x1 | 32 Go | 1500 Mbit/s | 0.02 € / heure |
+
+---
+
+### AI Endpoints (Lettria)
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/ai-endpoints/
+
+**Description:**
+Endpoints IA Lettria pour analyse d'émotions, reconnaissance d'entités nommées, et analyse de sentiment.
+
+**Recommandation d'usage:**
+Parfait pour l'analyse de texte, l'analyse de sentiment, la reconnaissance d'entités, et les applications NLP.
+
+**Use Cases Client:**
+1. **AI Notebooks:** Data exploration, analysis and visualisation. Model Prototyping and Experimentation. AI Proof of Concept.
+2. **AI Training:** Large scale Model Training. Model Fine-Tuning and Optimization. AI Research and Experimentation.
+3. **AI Deploy:** Application AI Inference. Enterprise AI APIs. Operational Automation.
+4. **AI Endpoints:** AI-Enhanced Applications. Predictable, High Throughput Services. Bulk AI Workloads.
+
+**Types de clients cibles:**
+- Analyse de texte et sentiment
+- Reconnaissance d'entités nommées
+- Applications NLP
+- Analyse d'émotions
+
+**Flavors Disponibles:**
+
+| Flavor | Prix |
+|--------|------|
+| ai-app-lettria-emotion-cpu | 0.03 € / heure |
+| ai-app-lettria-emotion-gpu | 0.04 € / heure |
+| ai-app-lettria-named-entity-recognition-cpu | 0.03 € / heure |
+| ai-app-lettria-named-entity-recognition-gpu | 0.04 € / heure |
+| ai-app-lettria-sentiment-cpu | 0.03 € / heure |
+| ai-app-lettria-sentiment-gpu | 0.04 € / heure |
+
+---
+
+### AI Endpoints (Voxist)
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/ai-endpoints/
+
+**Description:**
+Endpoints IA Voxist pour transcription de la parole en texte (speech-to-text).
+
+**Recommandation d'usage:**
+Idéal pour la transcription audio, la conversion parole-texte, et les applications de traitement vocal.
+
+**Use Cases Client:**
+1. **AI Notebooks:** Data exploration, analysis and visualisation. Model Prototyping and Experimentation. AI Proof of Concept.
+2. **AI Training:** Large scale Model Training. Model Fine-Tuning and Optimization. AI Research and Experimentation.
+3. **AI Deploy:** Application AI Inference. Enterprise AI APIs. Operational Automation.
+4. **AI Endpoints:** AI-Enhanced Applications. Predictable, High Throughput Services. Bulk AI Workloads.
+
+**Types de clients cibles:**
+- Transcription audio
+- Conversion parole-texte
+- Applications de traitement vocal
+- Services de transcription
+
+**Flavors Disponibles:**
+
+| Flavor | Prix |
+|--------|------|
+| ai-voxist.transcript-standard-cpu-bracket1 | 0.0002 € / heure |
+| ai-voxist.transcript-standard-cpu-bracket2 | 0.0002 € / heure |
+| ai-voxist.transcript-standard-cpu-bracket3 | 0.0001 € / heure |
+| ai-voxist.transcript-standard-cpu-bracket4 | 0.0001 € / heure |
+| ai-voxist.transcript-standard-cpu-bracket5 | 0.0001 € / heure |
+| ai-voxist.transcript-standard-gpu-bracket1 | 0.0002 € / heure |
+| ai-voxist.transcript-standard-gpu-bracket2 | 0.0002 € / heure |
+| ai-voxist.transcript-standard-gpu-bracket3 | 0.0001 € / heure |
+| ai-voxist.transcript-standard-gpu-bracket4 | 0.0001 € / heure |
+| ai-voxist.transcript-standard-gpu-bracket5 | 0.0001 € / heure |
+
+---
+
+### AI Endpoints - Embeddings
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/ai-endpoints/
+
+**Description:**
+Endpoints IA pour génération d'embeddings de texte pour recherche sémantique et similarité.
+
+**Recommandation d'usage:**
+Parfait pour la recherche sémantique, la similarité de texte, et les applications nécessitant des représentations vectorielles.
+
+**Use Cases Client:**
+1. **AI Notebooks:** Data exploration, analysis and visualisation. Model Prototyping and Experimentation. AI Proof of Concept.
+2. **AI Training:** Large scale Model Training. Model Fine-Tuning and Optimization. AI Research and Experimentation.
+3. **AI Deploy:** Application AI Inference. Enterprise AI APIs. Operational Automation.
+4. **AI Endpoints:** AI-Enhanced Applications. Predictable, High Throughput Services. Bulk AI Workloads.
+
+**Types de clients cibles:**
+- Recherche sémantique
+- Similarité de texte
+- Applications de recommandation
+- Recherche vectorielle
+
+**Flavors Disponibles:**
+
+| Flavor | Prix |
+|--------|------|
+| ai-endpoints.bge-base-en-v1-5-input_tokens | 0.0000 € / heure |
+| ai-endpoints.bge-multilingual-gemma2-input_tokens | 0.0000 € / heure |
+| ai-endpoints.bge-m3-input_tokens | 0.0000 € / heure |
+
+---
+
+### AI Endpoints - CodeLLM
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/ai-endpoints/
+
+**Description:**
+Endpoints IA pour modèles de langage spécialisés en génération de code et assistance au développement.
+
+**Recommandation d'usage:**
+Idéal pour la génération de code, l'assistance au développement, et les applications de programmation assistée par IA.
+
+**Use Cases Client:**
+1. **AI Notebooks:** Data exploration, analysis and visualisation. Model Prototyping and Experimentation. AI Proof of Concept.
+2. **AI Training:** Large scale Model Training. Model Fine-Tuning and Optimization. AI Research and Experimentation.
+3. **AI Deploy:** Application AI Inference. Enterprise AI APIs. Operational Automation.
+4. **AI Endpoints:** AI-Enhanced Applications. Predictable, High Throughput Services. Bulk AI Workloads.
+
+**Types de clients cibles:**
+- Génération de code
+- Assistance au développement
+- Applications de programmation assistée
+- Outils de développement IA
+
+**Flavors Disponibles:**
+
+| Flavor | Prix |
+|--------|------|
+| ai-endpoints.qwen-2-5-coder-32b-instruct-input_tokens | 0.0000 € / heure |
+| ai-endpoints.qwen-2-5-coder-32b-instruct-output_tokens | 0.0000 € / heure |
+| ai-endpoints.mamba-codestral-7b-v0-1-input_tokens | 0.0000 € / heure |
+| ai-endpoints.mamba-codestral-7b-v0-1-output_tokens | 0.0000 € / heure |
+| ai-endpoints.qwen-3-coder-30b-a3b-instruct-input_tokens | 0.0000 € / heure |
+| ai-endpoints.qwen-3-coder-30b-a3b-instruct-output_tokens | 0.0000 € / heure |
+
+---
+
+### AI Endpoints - LLM
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/ai-endpoints/
+
+**Description:**
+Endpoints IA pour grands modèles de langage (LLM) pour génération de texte et conversations.
+
+**Recommandation d'usage:**
+Parfait pour la génération de texte, les chatbots, les assistants conversationnels, et les applications de traitement de langage naturel avancées.
+
+**Use Cases Client:**
+1. **AI Notebooks:** Data exploration, analysis and visualisation. Model Prototyping and Experimentation. AI Proof of Concept.
+2. **AI Training:** Large scale Model Training. Model Fine-Tuning and Optimization. AI Research and Experimentation.
+3. **AI Deploy:** Application AI Inference. Enterprise AI APIs. Operational Automation.
+4. **AI Endpoints:** AI-Enhanced Applications. Predictable, High Throughput Services. Bulk AI Workloads.
+
+**Types de clients cibles:**
+- Génération de texte
+- Chatbots et assistants conversationnels
+- Applications NLP avancées
+- Services de conversation IA
+
+**Flavors Disponibles:**
+
+| Flavor | Prix |
+|--------|------|
+| ai-endpoints.llama-3-1-70b-instruct-input_tokens | 0.0000 € / heure |
+| ai-endpoints.llama-3-1-70b-instruct-output_tokens | 0.0000 € / heure |
+| ai-endpoints.llama-3-1-405b-instruct-input_tokens | 0.0000 € / heure |
+| ai-endpoints.llama-3-1-405b-instruct-output_tokens | 0.0000 € / heure |
+| ai-endpoints.mixtral-8x7b-instruct-v0-1-input_tokens | 0.0000 € / heure |
+| ai-endpoints.mixtral-8x7b-instruct-v0-1-output_tokens | 0.0000 € / heure |
+| ai-endpoints.mixtral-8x22b-instruct-v0-1-input_tokens | 0.0000 € / heure |
+| ai-endpoints.mixtral-8x22b-instruct-v0-1-output_tokens | 0.0000 € / heure |
+
+**Note:** Les détails techniques complets pour tous les endpoints AI (VLM, NLP, Translation, Speech to text) sont disponibles dans le catalogue complet. De nombreux autres endpoints AI sont disponibles avec des prix et spécifications détaillés.
 
 ---
 
@@ -1703,6 +2767,48 @@ Idéal pour déployer des applications containerisées, simplifier le déploieme
 
 ---
 
+### Managed Rancher Service
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/rancher/
+
+**Description:**
+Service Rancher managé pour la gestion multi-clusters Kubernetes et la modernisation d'infrastructure.
+
+**Recommandation d'usage:**
+Parfait pour moderniser et scaler l'infrastructure efficacement, gérer plusieurs clusters Kubernetes, et déployer des applications sur edge computing avec K3S.
+
+**Use Cases Client:**
+1. **Modernizing and scaling infrastructure efficiently:** Maintaining and deploying news services without handling infrastructure and dependencies complexity.
+2. **Multi-cluster and multi-cloud management:** Address enterprise level Kubernetes cluster provisioning, upgrades, user and policy management anywhere (on premise, on virtualized environement or in baremetal) in any cloud providers.
+3. **Edge computing with K3S:** Run containerized apps on edge (K3S) and keep the same level of administration, monitoring, scaling and updating if it's was on traditional cloud infrastructure
+
+**Types de clients cibles:**
+- Gestion multi-clusters Kubernetes
+- Modernisation d'infrastructure
+- Edge computing avec K3S
+- Environnements multi-cloud
+
+**Flavors Disponibles:**
+
+| Flavor | Prix |
+|--------|------|
+| Rancher OVHcloud Edition | 0.01 € / heure |
+| Rancher Standard | 0.02 € / heure |
+
+**Détails Techniques par Flavor:**
+
+#### Rancher OVHcloud Edition
+- **Plan Codes:** `rancher.ovhcloud-edition.hour.consumption`
+- **Prix:** 0.01 € / heure
+- **Spécifications:** Édition Rancher OVHcloud
+
+#### Rancher Standard
+- **Plan Codes:** `rancher.standard.hour.consumption`
+- **Prix:** 0.02 € / heure
+- **Spécifications:** Édition Rancher Standard
+
+---
+
 ### Managed Private Registry
 
 **URL:** https://www.ovhcloud.com/fr/public-cloud/container-registry/
@@ -1802,6 +2908,65 @@ Idéal pour la segmentation client, les recommandations personnalisées, la dét
 
 ---
 
+### Data Platform - Pay as you go
+
+**URL:** https://www.ovhcloud.com/fr/public-cloud/data-platform/
+
+**Description:**
+Flavors Data Platform en mode Pay as you go pour facturation à l'usage des différents composants de la plateforme.
+
+**Recommandation d'usage:**
+Idéal pour les environnements nécessitant flexibilité de facturation et utilisation variable des ressources Data Platform.
+
+**Use Cases Client:**
+1. **Retail & Ecommerce:** Securing proper Customer Segmentation based on purchasing behaviour or launching Personalized Recommendations based on Analyzing customer browsing analysis.
+2. **Financial Services & Banking:** Enabling Fraud Detection by using machine learning to identify suspicious transactions or pinpoint Credit Scoring by evaluating transactional history.
+3. **Healthcare & Life Science:** Identifying patients at high risk for diseases using AI-driven models. Or analyzing patient data to accelerate drug discovery and trial effectiveness.
+
+**Types de clients cibles:**
+- Environnements avec utilisation variable
+- Facturation à l'usage
+- Flexibilité de ressources
+
+**Flavors Disponibles:**
+
+| Flavor | Prix |
+|--------|------|
+| Applications Services compute | 0.08 € / heure |
+| Data Processing Engine compute | 0.08 € / heure |
+| Data Catalog, Control Center and IAM services | Gratuit / heure |
+| Data Lakehouse & Analytics queries compute | 5.47 € / heure |
+| Data Lakehouse storage | 0.0000 € / heure |
+
+**Détails Techniques par Flavor:**
+
+#### Applications Services compute
+- **Plan Codes:** `dataplatform.application-services.hour.consumption`
+- **Prix:** 0.08 € / heure
+- **Spécifications:** Compute pour services d'applications
+
+#### Data Processing Engine compute
+- **Plan Codes:** `dataplatform.data-processing-engine.hour.consumption`
+- **Prix:** 0.08 € / heure
+- **Spécifications:** Compute pour moteur de traitement de données
+
+#### Data Catalog, Control Center and IAM services
+- **Plan Codes:** `dataplatform.included-services.hour.consumption`
+- **Prix:** Gratuit / heure
+- **Spécifications:** Services inclus (Catalog, Control Center, IAM)
+
+#### Data Lakehouse & Analytics queries compute
+- **Plan Codes:** `dataplatform.lakehouse-manager-query.unit.consumption`
+- **Prix:** 5.47 € / heure
+- **Spécifications:** Compute pour requêtes Lakehouse & Analytics
+
+#### Data Lakehouse storage
+- **Plan Codes:** `dataplatform.lakehouse-storage.unit.consumption`
+- **Prix:** 0.0000 € / heure
+- **Spécifications:** Stockage Data Lakehouse
+
+---
+
 ## Note importante
 
 Ce fichier contient maintenant une sélection étendue des produits principaux avec toutes les informations combinées. Le catalogue complet contient encore de nombreux autres produits (bases de données PostgreSQL, MongoDB, Redis, Kafka, OpenSearch, services AI, Network, Container, etc.).
@@ -1815,26 +2980,38 @@ Pour obtenir la liste complète de tous les produits et flavors, consultez le fi
 - ✅ Instances IOPS Optimized (i1)
 - ✅ Instances Discovery (d2)
 - ✅ Bases de données managées PostgreSQL (Business, Production, Enterprise, Advanced, Essential)
-- ✅ Bases de données managées MongoDB (Business, Enterprise, Essential, Production, Discovery)
+- ✅ Bases de données managées MongoDB (Business, Enterprise, Essential, Production, Discovery, Advanced)
 - ✅ Bases de données managées Redis (Business, Production)
 - ✅ Bases de données managées Kafka (Business, Enterprise, Advanced, Production)
+- ✅ Bases de données managées Kafka Connect (Business, Enterprise, Essential)
+- ✅ Bases de données managées Kafka MirrorMaker (Business, Enterprise, Essential)
 - ✅ Bases de données managées OpenSearch (Business, Enterprise, Production)
+- ✅ Bases de données managées Grafana (Essential, Business)
 - ✅ Services AI Training (GPU: A10, A100, H100, L4, L40S, V100S)
 - ✅ Services AI Deploy (CPU)
+- ✅ Services AI GPU Deploy
 - ✅ Services AI Notebooks (GPU et CPU)
+- ✅ Services AI Endpoints (Lettria, Voxist, Embeddings, CodeLLM, LLM)
 - ✅ Services Network - Load Balancer (S, M, L, XL)
 - ✅ Services Network - Public Gateway (L, 2XL)
 - ✅ Services Network - Floating IP
+- ✅ Services Network - Network Bandwidth
+- ✅ Services Network - Private Network Bandwidth
 - ✅ Services Container - Managed Kubernetes Service (Free, Standard)
 - ✅ Services Container - Managed Private Registry (S, M, L)
-- ✅ Services Analytics - Data Platform
+- ✅ Services Container - Managed Rancher Service
+- ✅ Services Analytics - Data Platform (Capacity et Pay as you go)
+- ✅ Services Storage - Archive Storage
+- ✅ Services Storage - Block Storage (High Performance)
+- ✅ Services Storage - Object Storage (Standard, S3 API, S3 API 3AZ)
+- ✅ Services Storage - Cold Archive (V1 et V2)
+- ✅ Services Storage - Infrequent Access Object Storage
+- ✅ Services Storage - Block Storage Volumes (classic, high-speed, high-speed-gen2)
+- ✅ Services Storage - Volume Snapshots
 
-**Produits restants à ajouter (dans le catalogue complet):**
-- Bases de données supplémentaires (Cassandra, Grafana, M3DB, M3 Aggregator, etc.)
-- Services AI Endpoints supplémentaires (Lettria, Voxist)
-- Services Network supplémentaires (vRack, Private Network Bandwidth)
-- Services Storage complets (Object Storage Standard, Cold Archive, Block Storage volumes)
-- Services Container supplémentaires (Managed Rancher Service)
-- Autres services (snapshots, backups, etc.)
+**Note:** Ce fichier contient maintenant une sélection très complète des produits OVHcloud Public Cloud. Certains produits spécialisés ou variantes peuvent encore être manquants. Pour obtenir la liste exhaustive de tous les produits et flavors avec tous les détails techniques, consultez le fichier `docs_backup/catalogue-produits-complet.md`.
 
-**Note:** Ce fichier contient maintenant une sélection très complète des produits principaux OVHcloud Public Cloud. Pour obtenir la liste exhaustive de tous les produits et flavors avec tous les détails techniques, consultez le fichier `docs_backup/catalogue-produits-complet.md`.
+**Produits exclus (selon demande):**
+- Cassandra (Business, Enterprise, Essential)
+- M3DB (Business, Enterprise, Essential)
+- M3 Aggregator (Business, Enterprise)

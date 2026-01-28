@@ -8,7 +8,7 @@ Les informations entre parenthèses ne doivent pas être affichées mais doivent
 ## 🎯 Questions d'Introduction et de Contexte
 
 ### 1. Objectif principal du projet
-- **Question :** "Quel est l'objectif principal de votre projet cloud ?" (Facultatif, à poser plutot apres l'estimation, apres la question sur le besoin d'accompagnement)
+- **Question :** "Quel est l'objectif principal de votre projet cloud ?" (obligatoire)
   - Développer une application web/mobile
   - Héberger une base de données
   - Faire du machine learning / IA
@@ -18,7 +18,7 @@ Les informations entre parenthèses ne doivent pas être affichées mais doivent
   - Autre (précisez)
 
 ### 2. Type d'organisation
-- **Question :** "Quel type d'organisation êtes-vous ?" (Facultatif, à poser plutot apres l'estimation)
+- **Question :** "Quel type d'organisation êtes-vous ?"
   - Startup / PME
   - Entreprise (ETI)
   - Grande entreprise
@@ -27,7 +27,7 @@ Les informations entre parenthèses ne doivent pas être affichées mais doivent
   - Éducation / Recherche
 
 ### 3. Niveau d'expertise technique
-- **Question :** "Quel est votre niveau d'expertise technique en cloud computing ?" (Facultatif, à poser plutot apres l'estimation)
+- **Question :** "Quel est votre niveau d'expertise technique en cloud computing ?"
   - Débutant (première utilisation du cloud)
   - Intermédiaire (quelque expérience)
   - Avancé (équipe DevOps expérimentée)
@@ -400,13 +400,13 @@ Les informations entre parenthèses ne doivent pas être affichées mais doivent
 ## 📝 Questions Finales
 
 ### 42. Environnement
-- **Question :** "Pour quel environnement déployez-vous ?" (facultatif)
+- **Question :** "Pour quel environnement déployez-vous ?"
   - Production
   - Développement / Test
   - Staging / Pré-production
   - Mixte (plusieurs environnements)
 
-### 43. Support nécessaire (à poser après avoir fourni l'estimation)
+### 43. Support nécessaire
 - **Question :** "Quel niveau de support avez-vous besoin ?"
   - Support standard
   - Support prioritaire
@@ -414,7 +414,7 @@ Les informations entre parenthèses ne doivent pas être affichées mais doivent
   - Pas de support nécessaire
   - Je ne sais pas
 
-### 44. Délai de déploiement (Facultatif)
+### 44. Délai de déploiement
 - **Question :** "Quand souhaitez-vous déployer cette infrastructure ?"
   - Immédiatement
   - Dans les prochaines semaines
