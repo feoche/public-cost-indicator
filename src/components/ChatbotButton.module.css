@@ -1,0 +1,66 @@
+.floatingButton {
+  position: fixed;
+  bottom: var(--ovh-spacing-xl);
+  right: var(--ovh-spacing-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--ovh-spacing-md);
+  padding: var(--ovh-spacing-md) var(--ovh-spacing-xl);
+  background: var(--ovh-color-primary);
+  color: var(--ovh-color-neutral-0);
+  border: none;
+  border-radius: var(--ovh-radius-2xl);
+  font-size: var(--ovh-font-size-md);
+  font-weight: var(--ovh-font-weight-semibold);
+  cursor: pointer;
+  box-shadow: var(--ovh-shadow-xl);
+  transition: all var(--ovh-transition-base);
+  z-index: var(--ovh-z-fixed);
+  animation: pulse 2s infinite;
+}
+
+.floatingButton:hover {
+  background: var(--ovh-color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--ovh-shadow-2xl);
+  animation: none;
+}
+
+.floatingButton:active {
+  transform: translateY(0);
+}
+
+.icon {
+  font-size: var(--ovh-font-size-2xl);
+  line-height: 1;
+}
+
+.text {
+  white-space: nowrap;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: var(--ovh-shadow-xl);
+  }
+  50% {
+    box-shadow: 0 20px 25px -5px rgba(0, 162, 191, 0.3), 0 10px 10px -5px rgba(0, 162, 191, 0.15);
+  }
+}
+
+/* Responsive : texte plus court sur mobile */
+@media (max-width: 640px) {
+  .floatingButton {
+    padding: var(--ovh-spacing-md);
+    border-radius: var(--ovh-radius-full);
+  }
+  
+  .text {
+    display: none;
+  }
+  
+  .icon {
+    font-size: var(--ovh-font-size-3xl);
+  }
+}
+
