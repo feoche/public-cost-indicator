@@ -164,4 +164,43 @@ export function getCataloguePrices(): Record<string, number> {
   return prices;
 }
 
+/**
+ * Parse catalogue-produits-complet.md to extract flavor hourly prices.
+ */
+export function getCatalogueCompleteFlavorPrices(): Record<string, number> {
+  const prices: Record<string, number> = {};
+  const filePath = path.resolve(
+    process.cwd(),
+    "docs/catalogue-produits-complet.md"
+  );
+  const raw = fs.readFileSync(filePath, "utf8");
+  const lines = raw.split(/\r?\n/);
+
+  let currentFlavor: string | null = null;
+
+  for (const line of lines) {
+    const flavorMatch = line.match(/^#####\s+(.+)$/);
+    if (flavorMatch) {
+      currentFlavor = flavorMatch[1].trim();
+      continue;
+    }
+
+    if (!currentFlavor) continue;
+
+    const priceMatch = line.match(
+      /Prix:\s*([\d.,]+)\s*€\s*\/\s*heure/i
+    );
+    if (priceMatch) {
+      const value = parseFloat(priceMatch[1].replace(",", "."));
+      if (!Number.isNaN(value)) {
+        prices[currentFlavor] = value;
+        prices[currentFlavor.toLowerCase()] = value;
+      }
+      currentFlavor = null;
+    }
+  }
+
+  return prices;
+}
+
 export default catalog;

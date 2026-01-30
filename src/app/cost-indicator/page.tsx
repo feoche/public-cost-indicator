@@ -1,6 +1,7 @@
 import {
   getAddonFamilies,
   getCatalogLocale,
+  getCatalogueCompleteFlavorPrices,
   getCataloguePrices,
   getPlans,
 } from "./lib/cloudData";
@@ -11,6 +12,7 @@ export default function CostCalculator() {
   const families = getAddonFamilies();
   const locale = getCatalogLocale();
   const cataloguePrices = getCataloguePrices();
+  const catalogueFlavorPrices = getCatalogueCompleteFlavorPrices();
 
   return (
     <CostIndicatorClient
@@ -19,6 +21,7 @@ export default function CostCalculator() {
       currency={locale.currencyCode}
       taxRate={locale.taxRate}
       cataloguePrices={cataloguePrices}
+      catalogueFlavorPrices={catalogueFlavorPrices}
     />
   );
 }

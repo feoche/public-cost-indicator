@@ -21,6 +21,7 @@ interface CostIndicatorClientProps {
   currency?: string;
   taxRate?: number;
   cataloguePrices?: Record<string, number>;
+  catalogueFlavorPrices?: Record<string, number>;
 }
 
 export default function CostIndicatorClient({
@@ -29,6 +30,7 @@ export default function CostIndicatorClient({
   currency = "EUR",
   taxRate,
   cataloguePrices = {},
+  catalogueFlavorPrices = {},
 }: CostIndicatorClientProps) {
   const gpuProfileDetails: Record<
     string,
@@ -80,7 +82,6 @@ export default function CostIndicatorClient({
   const [selectedFamilyGroup, setSelectedFamilyGroup] = useState("");
   const [selectedFamily, setSelectedFamily] = useState<string>("");
   const [hardwareModel, setHardwareModel] = useState("");
-  const [instanceProfile, setInstanceProfile] = useState("");
   const [cpu, setCpu] = useState("");
   const [memory, setMemory] = useState("");
   const [blockStorage, setBlockStorage] = useState("0");
@@ -100,13 +101,31 @@ export default function CostIndicatorClient({
   const [hasSelectedResilience, setHasSelectedResilience] = useState(false);
   const [savingPlanDuration, setSavingPlanDuration] = useState("payg");
   const [savingPlanDiscount, setSavingPlanDiscount] = useState("0");
-  const [savingPlanAuto, setSavingPlanAuto] = useState(true);
   const [gpuType, setGpuType] = useState("a10-1-gpu");
   const [gpuQty, setGpuQty] = useState("0");
   const [gpuEnabled, setGpuEnabled] = useState(false);
   const [selectedType, setSelectedType] = useState("");
   const [estimatedCost, setEstimatedCost] = useState<number | null>(null);
   const [estimatedSavings, setEstimatedSavings] = useState<number | null>(null);
+  const [showPresetApp, setShowPresetApp] = useState(false);
+  const [chatInput, setChatInput] = useState("");
+  const [chatMessages, setChatMessages] = useState<
+    { role: "assistant" | "user"; content: string }[]
+  >([
+    {
+      role: "assistant",
+      content:
+        "Bonjour ! Je suis votre assistant pour cadrer la migration cloud d’une PME e‑commerce. Je vais poser une série de questions pour construire une recommandation.",
+    },
+  ]);
+  const [chatStepIndex, setChatStepIndex] = useState(0);
+  const [chatInstanceChoice, setChatInstanceChoice] = useState("");
+
+  type ChatQuestion = {
+    text: string;
+    options?: string[];
+    key?: "instanceType" | "vcpu" | "ram";
+  };
 
   const filteredPlans = useMemo(() => {
     if (!selectedFamily) {
@@ -252,32 +271,6 @@ export default function CostIndicatorClient({
     return optionsByLocation[location] ?? fallback;
   }, [location]);
 
-  const instanceProfileGroups = useMemo(() => {
-    const profiles = new Set<string>();
-    plans.forEach((plan) => {
-      plan.addonFamilies?.forEach((family) => {
-        if (family.name === "instance") {
-          family.addons?.forEach((addon) => profiles.add(addon));
-        }
-      });
-    });
-
-    const groups: Record<string, string[]> = {};
-    Array.from(profiles).forEach((profile) => {
-      const prefix = profile.split("-")[0] ?? "other";
-      if (!groups[prefix]) {
-        groups[prefix] = [];
-      }
-      groups[prefix].push(profile);
-    });
-
-    return Object.entries(groups)
-      .map(([label, items]) => ({
-        label: label.toUpperCase(),
-        items: items.sort(),
-      }))
-      .sort((a, b) => a.label.localeCompare(b.label));
-  }, [plans]);
 
   const planHourlyPriceByCode = useMemo(() => {
     const map: Record<string, number> = {};
@@ -294,6 +287,19 @@ export default function CostIndicatorClient({
 
     return map;
   }, [plans, cataloguePrices]);
+
+  const getPriceFromCodes = (
+    codes: string[],
+    fallback: number
+  ): number => {
+    for (const code of codes) {
+      const price = planHourlyPriceByCode[code];
+      if (typeof price === "number") {
+        return price;
+      }
+    }
+    return fallback;
+  };
 
   const instanceTypePricingPerHour = useMemo(() => {
     const map: Record<
@@ -313,7 +319,12 @@ export default function CostIndicatorClient({
       const vcpu = technical?.cpu?.cores;
       const memory = technical?.memory?.size;
       const bandwidth = technical?.bandwidth?.level;
-      const price = planHourlyPriceByCode[plan.planCode];
+      const fallbackPrice = planHourlyPriceByCode[plan.planCode];
+      const overridePrice =
+        catalogueFlavorPrices[name] ??
+        catalogueFlavorPrices[name.toLowerCase()];
+      const price =
+        typeof overridePrice === "number" ? overridePrice : fallbackPrice;
 
       if (!vcpu || !memory || typeof price !== "number") return;
 
@@ -328,7 +339,7 @@ export default function CostIndicatorClient({
     });
 
     return map;
-  }, [plans, planHourlyPriceByCode]);
+  }, [plans, planHourlyPriceByCode, catalogueFlavorPrices]);
 
   const instanceTypeOptions = useMemo(
     () =>
@@ -337,6 +348,34 @@ export default function CostIndicatorClient({
       ),
     [instanceTypePricingPerHour]
   );
+
+  const mergedInstanceTypes = useMemo(() => {
+    const unique = new Map<string, string>();
+    const add = (name: string) => {
+      const key = name.toLowerCase();
+      if (!unique.has(key)) {
+        unique.set(key, name);
+      }
+    };
+    instanceTypeOptions.forEach(add);
+    Object.keys(catalogueFlavorPrices ?? {}).forEach(add);
+    return Array.from(unique.values()).sort((a, b) => a.localeCompare(b));
+  }, [instanceTypeOptions, catalogueFlavorPrices]);
+
+  const groupedInstanceTypes = useMemo(() => {
+    const groups: Record<string, string[]> = {};
+    mergedInstanceTypes.forEach((name) => {
+      const prefix = name.split("-")[0] || "Autres";
+      const key = prefix.toUpperCase();
+      if (!groups[key]) {
+        groups[key] = [];
+      }
+      groups[key].push(name);
+    });
+    return Object.entries(groups)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([label, items]) => [label, items.sort()] as const);
+  }, [mergedInstanceTypes]);
 
   const typeOptions = useMemo(() => {
     if (selectedFamily === "instance") {
@@ -381,7 +420,6 @@ export default function CostIndicatorClient({
   }, [regionCapabilities.supports3az, regionCapabilities.supportsLz, resilience]);
 
   useEffect(() => {
-    if (!savingPlanAuto) return;
     const defaults: Record<string, number> = {
       payg: 0,
       "1m": 10,
@@ -391,7 +429,7 @@ export default function CostIndicatorClient({
       "36m": 45,
     };
     setSavingPlanDiscount(String(defaults[savingPlanDuration] ?? 0));
-  }, [savingPlanDuration, savingPlanAuto]);
+  }, [savingPlanDuration]);
 
   useEffect(() => {
     if (!selectedFamilyGroup || location) return;
@@ -421,18 +459,40 @@ export default function CostIndicatorClient({
   const basePlanHourly = instancePrice;
   const gpuUnitPrice = gpuPricingPerHour[gpuType] ?? 0;
   const gpuHourly = gpuEnabled ? gpuUnitPrice * Number(gpuQty || 0) : 0;
-  const blockStorageUnit =
-    blockStoragePricingPerGbHour[blockStorageClass] ?? 0;
+  const blockStorageUnit = getPriceFromCodes(
+    blockStorageClass === "highSpeed"
+      ? ["volume.high-speed.consumption"]
+      : blockStorageClass === "highSpeedGen2"
+      ? ["volume.high-speed-gen2.consumption"]
+      : ["volume.classic.consumption"],
+    blockStoragePricingPerGbHour[blockStorageClass] ?? 0
+  );
   const blockStorageHourly = Number(blockStorage) * blockStorageUnit;
   const floatingIpHourlyPrice =
     planHourlyPriceByCode["floatingip.floatingip.hour.consumption"] ??
     floatingIpPricePerHour;
   const publicIpHourly = Number(publicIps) * floatingIpHourlyPrice;
-  const objectStorageHourly =
-    Number(objectStorage) *
-    (objectStoragePricingPerGbHour[objectStorageClass] ?? 0);
-  const fileStorageHourly = 0;
-  const backupHourly = Number(instanceBackupQty) * backupPricingPerGbHour;
+  const objectStorageUnit = getPriceFromCodes(
+    objectStorageClass === "highPerformance"
+      ? ["storage-high-perf.consumption"]
+      : objectStorageClass === "infrequentAccess"
+      ? ["storage-standard-ia.consumption"]
+      : objectStorageClass === "coldArchive"
+      ? ["storage-deep-archive.consumption"]
+      : ["storage-standard.consumption"],
+    objectStoragePricingPerGbHour[objectStorageClass] ?? 0
+  );
+  const objectStorageHourly = Number(objectStorage) * objectStorageUnit;
+  const fileStorageUnit = getPriceFromCodes(
+    ["file-storage.standard.hour.consumption"],
+    0
+  );
+  const fileStorageHourly = Number(fileStorage) * fileStorageUnit;
+  const backupUnit = getPriceFromCodes(
+    ["volume-backup.storage.hour.consumption"],
+    backupPricingPerGbHour
+  );
+  const backupHourly = Number(instanceBackupQty) * backupUnit;
   const familyTypeHourly = (() => {
     if (!selectedType) return 0;
     if (selectedFamily === "floatingip") return floatingIpHourlyPrice;
@@ -533,6 +593,212 @@ export default function CostIndicatorClient({
     setEstimatedSavings(parseFloat(savingsAmount.toFixed(3)));
   };
 
+  const applyEcommercePreset = () => {
+    setLocation("europe");
+    setRegion("fr-par");
+    setResilience("3AZ");
+    setHasSelectedResilience(true);
+    setSelectedFamilyGroup("Compute");
+    setSelectedFamily("instance");
+    setSelectedType("");
+    setHardwareModel("amd-epyc");
+    setCpu("8");
+    setMemory("32");
+    setBlockStorage("200");
+    setBlockStorageClass("classic");
+    setPublicIps("1");
+    setObjectStorage("500");
+    setObjectStorageClass("standard");
+    setFileStorage("0");
+    setInstanceBackupQty("2");
+    setInstanceBackupRetention("30");
+    setRemoteBackupEnabled(true);
+    setRemoteBackupRegion("fr-grv");
+    setSavingPlanDuration("payg");
+  };
+
+  const chatQuestions = useMemo<ChatQuestion[]>(
+    () => [
+      {
+        text: "Quel est l’objectif principal : migration complète ou progressive ?",
+        options: ["Migration complète", "Migration progressive"],
+      },
+      {
+        text: "Quel est le type d’organisation ?",
+        options: ["Startup", "PME", "ETI"],
+      },
+      {
+        text: "Quelle est votre infrastructure actuelle ?",
+        options: ["On‑premise", "Cloud", "Mixte"],
+      },
+      {
+        text: "Quel type de charge souhaitez‑vous migrer ?",
+        options: ["Site web", "API backend", "Batch", "Mixte"],
+      },
+      {
+        text: "Choisissez un type d’instance (ex: b3‑8).",
+        key: "instanceType",
+      },
+      {
+        text: "Sélectionnez le nombre de vCPU.",
+        options: cpuOptions,
+        key: "vcpu",
+      },
+      {
+        text: "Sélectionnez la RAM (GB).",
+        options: memoryOptions,
+        key: "ram",
+      },
+      {
+        text: "Niveau de disponibilité requis ?",
+        options: ["99,9 %", "99,99 %"],
+      },
+      {
+        text: "Pics de charge prévisibles ?",
+        options: ["Oui (soldes, événements)", "Non", "Je ne sais pas"],
+      },
+      {
+        text: "Souhaitez‑vous de l’auto‑scaling ?",
+        options: ["Oui, trafic", "Oui, CPU", "Non"],
+      },
+      {
+        text: "Exposition publique ?",
+        options: ["Front public", "Back privé", "Mixte"],
+      },
+      {
+        text: "Load balancer nécessaire ?",
+        options: ["Oui (HA)", "Oui (trafic)", "Non"],
+      },
+      {
+        text: "Bande passante estimée ?",
+        options: ["Faible", "Modérée", "Élevée"],
+      },
+      {
+        text: "Base de données : type ?",
+        options: ["MySQL", "PostgreSQL", "Autre"],
+      },
+      {
+        text: "Taille/charge de la base ?",
+        options: ["Faible", "Modérée", "Élevée"],
+      },
+      {
+        text: "Disponibilité base ?",
+        options: ["Réplication", "Failover", "Standard"],
+      },
+      {
+        text: "Stockage principal ?",
+        options: ["Objet", "Bloc", "Fichier", "Mixte"],
+      },
+      {
+        text: "Volume de données estimé ?",
+        options: ["< 1 To", "1‑10 To", "> 10 To"],
+      },
+      {
+        text: "Sauvegardes ?",
+        options: ["Automatiques", "Rétention", "Multi‑région", "Aucune"],
+      },
+      {
+        text: "Sécurité réseau ?",
+        options: ["Firewall", "VPN", "vRack", "Standard"],
+      },
+      {
+        text: "Conformité ?",
+        options: ["RGPD", "ISO", "PCI‑DSS", "Aucune"],
+      },
+      {
+        text: "Localisation des données ?",
+        options: ["France", "Europe", "Multi‑région"],
+      },
+      {
+        text: "Budget mensuel estimé ?",
+        options: ["< 500 €", "500‑1500 €", "> 1500 €", "Je ne sais pas"],
+      },
+      {
+        text: "Modèle de facturation préféré ?",
+        options: ["Pay‑as‑you‑go", "Engagement"],
+      },
+      {
+        text: "Prévisibilité des coûts ?",
+        options: ["Fixe", "Flexible"],
+      },
+      {
+        text: "Environnement ?",
+        options: ["Prod", "Dev/Test", "Mixte"],
+      },
+      {
+        text: "Support nécessaire ?",
+        options: ["Standard", "Prioritaire", "Aucun"],
+      },
+      {
+        text: "Délai de déploiement ?",
+        options: ["Immédiat", "Semaines", "Mois"],
+      },
+      {
+        text: "Contraintes ou informations complémentaires ?",
+      },
+    ],
+    [cpuOptions, memoryOptions]
+  );
+
+  const proceedChat = (answer: string) => {
+    const currentQuestion = chatQuestions[chatStepIndex];
+    if (currentQuestion?.key === "instanceType") {
+      setSelectedFamilyGroup("Compute");
+      setSelectedFamily("instance");
+      setSelectedType(answer);
+      const details = instanceTypePricingPerHour[answer];
+      if (details) {
+        setCpu(String(details.vcpu));
+        setMemory(String(details.memory));
+      }
+    }
+    if (currentQuestion?.key === "vcpu") {
+      setCpu(answer);
+    }
+    if (currentQuestion?.key === "ram") {
+      setMemory(answer);
+    }
+    const nextMessages = [
+      ...chatMessages,
+      { role: "user", content: answer },
+    ];
+    const nextIndex = chatStepIndex + 1;
+    if (nextIndex < chatQuestions.length) {
+      nextMessages.push({
+        role: "assistant",
+        content: chatQuestions[nextIndex].text,
+      });
+    } else {
+      nextMessages.push({
+        role: "assistant",
+        content:
+          "Merci ! J’ai toutes les informations. Vous pouvez appliquer le preset ou ajuster la configuration manuellement.",
+      });
+    }
+    setChatMessages(nextMessages);
+    setChatStepIndex(nextIndex);
+    setChatInput("");
+  };
+
+  const handleChatSend = () => {
+    const trimmed = chatInput.trim();
+    if (!trimmed) return;
+    proceedChat(trimmed);
+  };
+
+  const startChat = () => {
+    setChatMessages((current) => {
+      if (current.length > 1) return current;
+      return [
+        ...current,
+        {
+          role: "assistant",
+          content: chatQuestions[0].text,
+        },
+      ];
+    });
+  };
+
   return (
     <div className={styles.container}>
       <header className={styles.topBar}>
@@ -559,7 +825,13 @@ export default function CostIndicatorClient({
                 souveraine, avec les références du catalogue OVHcloud.
               </p>
             </div>
-            <button className={styles.helpButton}>
+            <button
+              className={styles.helpButton}
+              onClick={() => {
+                setShowPresetApp(true);
+                startChat();
+              }}
+            >
               Aide à la configuration
             </button>
           </section>
@@ -568,6 +840,10 @@ export default function CostIndicatorClient({
             <div className={styles.cardHeaderRow}>
               <h2 className={styles.cardTitle}>Configuration 1</h2>
             </div>
+            <p className={styles.cardMeta}>
+              Lancez l’app de cadrage pour une PME e‑commerce et appliquez un
+              preset de configuration en un clic.
+            </p>
             <div className={styles.configSplit}>
               <div className={styles.configColumn}>
                 <div className={styles.subcard}>
@@ -662,51 +938,48 @@ export default function CostIndicatorClient({
                   </div>
                 </div>
 
-                <div className={styles.formGrid}>
-                  <div className={styles.formRow}>
-                    <div className={styles.field}>
-                      <label className={styles.label}>Gamme</label>
-                      <select
-                        className={styles.input}
-                        value={selectedFamilyGroup}
-                        onChange={(e) => {
-                          setSelectedFamilyGroup(e.target.value);
-                          setSelectedFamily("");
-                          setSelectedType("");
-                        }}
-                      >
-                        <option value="">Toutes</option>
-                        {familyGroups.map((group) => (
-                          <option key={group.label} value={group.label}>
-                            {group.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className={styles.field}>
-                      <label className={styles.label}>Ressource</label>
-                      <select
-                        className={styles.input}
-                        value={selectedFamily}
-                        onChange={(e) => {
-                          setSelectedFamily(e.target.value);
-                          setSelectedType("");
-                        }}
-                      >
-                        <option value="">Sélectionner une famille</option>
-                        {familyOptions.map((family) => (
-                          <option key={family} value={family}>
-                            {family}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
                 <div className={styles.subcard}>
                   <h3 className={styles.sectionTitle}>Configuration de l’instance</h3>
                   <div className={styles.formGrid}>
+                    <div className={styles.formRow}>
+                      <div className={styles.field}>
+                        <label className={styles.label}>Gamme</label>
+                        <select
+                          className={styles.input}
+                          value={selectedFamilyGroup}
+                          onChange={(e) => {
+                            setSelectedFamilyGroup(e.target.value);
+                            setSelectedFamily("");
+                            setSelectedType("");
+                          }}
+                        >
+                          <option value="">Toutes</option>
+                          {familyGroups.map((group) => (
+                            <option key={group.label} value={group.label}>
+                              {group.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className={styles.field}>
+                        <label className={styles.label}>Ressource</label>
+                        <select
+                          className={styles.input}
+                          value={selectedFamily}
+                          onChange={(e) => {
+                            setSelectedFamily(e.target.value);
+                            setSelectedType("");
+                          }}
+                        >
+                          <option value="">Sélectionner une famille</option>
+                          {familyOptions.map((family) => (
+                            <option key={family} value={family}>
+                              {family}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
                     <div className={styles.field}>
                       <label className={styles.label}>Modèle Hardware</label>
                       <select
@@ -773,28 +1046,6 @@ export default function CostIndicatorClient({
                         ) : null}
                       </div>
                     ) : null}
-                    <div className={styles.field}>
-                      <label className={styles.label}>Profil OVHcloud</label>
-                      <select
-                        className={styles.input}
-                        value={instanceProfile}
-                        onChange={(e) => setInstanceProfile(e.target.value)}
-                      >
-                        <option value="">Sélectionner un profil</option>
-                        {instanceProfileGroups.map((group) => (
-                          <optgroup key={group.label} label={group.label}>
-                            {group.items.map((profile) => (
-                              <option key={profile} value={profile}>
-                                {profile}
-                              </option>
-                            ))}
-                          </optgroup>
-                        ))}
-                      </select>
-                      <span className={styles.hint}>
-                        Profils issus des add-ons OVHcloud.
-                      </span>
-                    </div>
                     <div className={styles.field}>
                       <label className={styles.label}>CPU (Cores)</label>
                       <select
@@ -899,23 +1150,10 @@ export default function CostIndicatorClient({
                       </span>
                     </div>
                     <div className={styles.field}>
-                      <label className={styles.label}>Remise Savings Plan (%)</label>
-                      <input
-                        className={styles.input}
-                        type="number"
-                        min="0"
-                        max="54"
-                        step="1"
-                        value={savingPlanDiscount}
-                        onChange={(e) => {
-                          setSavingPlanDiscount(e.target.value);
-                          setSavingPlanAuto(false);
-                        }}
-                        disabled={savingPlanDuration === "payg"}
-                      />
-                      <span className={styles.hint}>
-                        Remise auto selon la durée, ajustable si besoin (max 54%).
-                      </span>
+                      <label className={styles.label}>Remise Savings Plan</label>
+                      <div className={styles.inlineValue}>
+                        {savingPlanDiscount}% (auto)
+                      </div>
                     </div>
                     {hasSelectedResilience && resilience === "LZ" ? (
                       <div className={styles.warningRow}>
@@ -932,7 +1170,7 @@ export default function CostIndicatorClient({
                     <div className={styles.field}>
                       <label className={styles.label}>Tarif Object Storage</label>
                       <div className={styles.inlineValue}>
-                        {objectStoragePricingPerGbHour[objectStorageClass] ?? 0} €/GB/h
+                        {objectStorageUnit} €/GB/h
                       </div>
                     </div>
                   </div>
@@ -968,6 +1206,9 @@ export default function CostIndicatorClient({
                         <option value="highSpeed">High Speed</option>
                         <option value="highSpeedGen2">High Speed Gen2</option>
                       </select>
+                      <span className={styles.hint}>
+                        {blockStorageUnit} €/GB/h (cloud.json)
+                      </span>
                     </div>
                     <div className={styles.field}>
                       <label className={styles.label}>File Storage (GB)</label>
@@ -982,6 +1223,9 @@ export default function CostIndicatorClient({
                           </option>
                         ))}
                       </select>
+                      <span className={styles.hint}>
+                        {fileStorageUnit} €/GB/h (cloud.json)
+                      </span>
                     </div>
                     <div className={styles.field}>
                       <label className={styles.label}>Stockage S3 (GB)</label>
@@ -1010,6 +1254,9 @@ export default function CostIndicatorClient({
                         <option value="swift">Swift</option>
                         <option value="coldArchive">Cold Archive</option>
                       </select>
+                      <span className={styles.hint}>
+                        {objectStorageUnit} €/GB/h (cloud.json)
+                      </span>
                     </div>
                     <div className={styles.field}>
                       <label className={styles.label}>IP Publiques</label>
@@ -1103,7 +1350,7 @@ export default function CostIndicatorClient({
                     <div className={styles.field}>
                       <label className={styles.label}>Tarif backup</label>
                       <div className={styles.inlineValue}>
-                        {backupPricingPerGbHour} €/GB/h
+                        {backupUnit} €/GB/h
                       </div>
                     </div>
                   </div>
@@ -1219,6 +1466,164 @@ export default function CostIndicatorClient({
           </section>
         </aside>
       </div>
+      {showPresetApp ? (
+        <div
+          className={styles.modalBackdrop}
+          onClick={() => setShowPresetApp(false)}
+        >
+          <div
+            className={styles.modal}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className={styles.modalHeader}>
+              <div>
+                <div className={styles.modalTitle}>Preset IA — PME e‑commerce</div>
+                <div className={styles.modalSubtitle}>
+                  Chatbot de cadrage pour une migration on‑premise vers le cloud
+                  public.
+                </div>
+              </div>
+              <button
+                className={styles.modalClose}
+                onClick={() => setShowPresetApp(false)}
+                aria-label="Fermer"
+              >
+                ✕
+              </button>
+            </div>
+            <div className={styles.modalContent}>
+              <section className={styles.modalCard}>
+                <h3 className={styles.sectionTitle}>Conversation</h3>
+                <div className={styles.chatWindow}>
+                  {chatMessages.map((message, index) => (
+                    <div
+                      key={`${message.role}-${index}`}
+                      className={
+                        message.role === "assistant"
+                          ? styles.chatBubble
+                          : styles.chatBubbleUser
+                      }
+                    >
+                      {message.content}
+                    </div>
+                  ))}
+                </div>
+                {chatQuestions[chatStepIndex]?.key === "instanceType" ? (
+                  <div className={styles.chatSelectRow}>
+                    <select
+                      className={styles.chatSelect}
+                      value={chatInstanceChoice}
+                      onChange={(event) => setChatInstanceChoice(event.target.value)}
+                    >
+                      <option value="">Sélectionner un type</option>
+                      {groupedInstanceTypes.map(([label, items]) => (
+                        <optgroup key={label} label={label}>
+                          {items.map((item) => (
+                            <option key={item} value={item}>
+                              {item}
+                            </option>
+                          ))}
+                        </optgroup>
+                      ))}
+                    </select>
+                    <button
+                      className={styles.secondaryButton}
+                      onClick={() => {
+                        if (chatInstanceChoice) {
+                          proceedChat(chatInstanceChoice);
+                        }
+                      }}
+                    >
+                      Valider
+                    </button>
+                  </div>
+                ) : chatQuestions[chatStepIndex]?.options?.length ? (
+                  <div className={styles.chatChoices}>
+                    {chatQuestions[chatStepIndex].options?.map((option) => (
+                      <button
+                        key={option}
+                        className={styles.chatChoice}
+                        onClick={() => proceedChat(option)}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
+                <div className={styles.chatInputRow}>
+                  <input
+                    className={styles.chatInput}
+                    placeholder="Répondre à la question..."
+                    value={chatInput}
+                    onChange={(event) => setChatInput(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") {
+                        handleChatSend();
+                      }
+                    }}
+                  />
+                  <button
+                    className={styles.secondaryButton}
+                    onClick={handleChatSend}
+                  >
+                    Envoyer
+                  </button>
+                </div>
+                <div className={styles.chatHint}>
+                  Question {Math.min(chatStepIndex + 1, chatQuestions.length)} /{" "}
+                  {chatQuestions.length}
+                </div>
+              </section>
+              <section className={styles.modalCard}>
+                <h3 className={styles.sectionTitle}>Preset recommandé</h3>
+                <div className={styles.presetGrid}>
+                  <div>
+                    <span>Localisation</span>
+                    <strong>France / Europe</strong>
+                  </div>
+                  <div>
+                    <span>Résilience</span>
+                    <strong>3AZ si disponible</strong>
+                  </div>
+                  <div>
+                    <span>Réseau</span>
+                    <strong>LB + IP publiques</strong>
+                  </div>
+                  <div>
+                    <span>Stockage</span>
+                    <strong>Object + Block</strong>
+                  </div>
+                  <div>
+                    <span>Sauvegardes</span>
+                    <strong>Automatiques + distant</strong>
+                  </div>
+                  <div>
+                    <span>Coûts</span>
+                    <strong>Pay‑as‑you‑go</strong>
+                  </div>
+                </div>
+              </section>
+            </div>
+            <div className={styles.modalFooter}>
+              <button
+                className={styles.outlineButton}
+                onClick={() => setShowPresetApp(false)}
+              >
+                Fermer
+              </button>
+              <button
+                className={styles.primaryButton}
+                onClick={() => {
+                  applyEcommercePreset();
+                  setShowPresetApp(false);
+                }}
+              >
+                Appliquer le preset
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
